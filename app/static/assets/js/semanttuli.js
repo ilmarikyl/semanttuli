@@ -24,7 +24,7 @@ const today = Math.floor(now / 86400000);
 // console.log('TODAY:', today)
 const initialDay = 19146; // oikeasti 19146
 const puzzleNumber = (today - initialDay) % secretWordsEncoded.length;
-const handleStats = puzzleNumber > 1;
+const handleStats = puzzleNumber >= 1;
 const yesterdayPuzzleNumber =
 	(today - initialDay + secretWordsEncoded.length - 1) %
 	secretWordsEncoded.length;
