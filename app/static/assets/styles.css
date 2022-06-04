@@ -1,0 +1,689 @@
+* {
+	box-sizing: border-box;
+}
+
+:root {
+	--text-color-light: black;
+	--text-color-dark: white;
+
+	--bg-color-light: hsl(42, 30%, 92%);
+	--bg-color-dark: hsl(0, 0%, 8%);
+
+	--menu-icon-color-light: hsl(287, 16%, 62%);
+	--menu-icon-color-dark: hsl(0, 0%, 100%);
+
+	--button-color-light: hsl(287, 16%, 62%);
+	--button-color-dark: hsl(275, 40%, 18%);
+
+	--dialog-bg-color-light: hsl(34, 30%, 82%);
+	--dialog-bg-color-dark: hsl(224, 48%, 16%);
+
+	--accordion-active-color-light: hsl(32, 30%, 69%);
+	--accordion-active-color-dark: hsl(224, 46%, 27%);
+
+	--input-bg-color-light: hsl(34, 30%, 82%);
+	--input-bg-color-dark: hsl(231, 21%, 30%);
+
+	--guess-btn-color-light: hsl(32, 30%, 69%);
+	--guess-btn-color-dark: hsl(275, 40%, 18%);
+
+	--progress-bar-gradient1-light: hsl(135, 81%, 69%);
+	--progress-bar-gradient1-dark: hsl(125, 56%, 45%);
+
+	--progress-bar-gradient2-light: hsl(135, 68%, 49%);
+	--progress-bar-gradient2-dark: hsl(125, 57%, 27%);
+
+	--progress-bar-bg-color-light: hsl(34, 30%, 82%);
+	--progress-bar-bg-color-dark: hsl(0, 6%, 58%);
+}
+
+body,
+input,
+button {
+	font-family: "Rubik", sans-serif;
+	font-size: 17px;
+	-webkit-font-smoothing: subpixel-antialiased;
+	font-weight: 300;
+	line-height: 1.59;
+	text-rendering: optimizeLegibility;
+}
+
+header {
+	align-items: center;
+	display: flex;
+	justify-content: space-between;
+	width: 100%;
+}
+
+body {
+	background: var(--bg-color-light);
+}
+
+body #menu button {
+	color: var(--menu-icon-color-light);
+}
+
+body.dialog-open {
+	overflow: hidden;
+}
+
+body.rules-open #rules-underlay {
+	display: block;
+}
+
+body.settings-open #settings-underlay {
+	display: block;
+}
+
+h3,
+h2 {
+	font-weight: 400;
+}
+
+h2 {
+	margin: 0;
+}
+
+hr {
+	border: 1px solid var(--text-color-light);
+	border-color: rgb(104, 104, 104);
+	border-radius: 1px;
+	border-top: 0px;
+}
+
+footer {
+	font-size: 13px;
+	margin: auto;
+	margin-top: 20px;
+	text-align: center;
+}
+
+input[type="button"],
+#toggle-stats-btn {
+	border: none;
+	border-radius: 10px;
+}
+
+input[type="submit"] {
+	border: none;
+	border-radius: 0 21px 21px 0;
+}
+
+input[type="text"] {
+	border: 0;
+	border-radius: 21px 0 0 21px;
+}
+
+input[type="text"]:focus-visible {
+	outline: none;
+}
+
+td > .pcont {
+	display: flex;
+	justify-content: center;
+	margin: 0;
+}
+
+th {
+	font-weight: 500;
+	text-align: start;
+}
+
+#menu {
+	column-gap: 2.7em;
+	display: flex;
+	justify-content: space-evenly;
+	padding-right: 1em;
+}
+
+#menu button,
+.dialog-close {
+	background: transparent;
+	border: none;
+	padding: 0;
+}
+
+#menu button svg {
+	height: 1.7em;
+	width: 1.7em;
+}
+
+input[type="submit"],
+input[type="button"],
+#toggle-stats-btn {
+	font-family: "Varela Round", sans-serif;
+}
+
+#error {
+	color: #f00;
+}
+
+#guess-wrapper {
+	align-items: center;
+	display: flex;
+	margin: 20px 0;
+	width: 100%;
+}
+
+#guess-wrapper input {
+	background-color: var(--input-bg-color-light);
+	height: 2.5em;
+	padding: 0.5em;
+	padding-left: 12em;
+}
+
+#guess-wrapper input#guess-btn {
+	background-color: var(--guess-btn-color-light);
+	color: var(--bg-color-light);
+}
+
+input#guess {
+	padding-left: 21px;
+}
+
+input#guess-btn {
+	padding-left: 12px;
+	padding-right: 16px;
+}
+
+#toggle-stats-btn,
+#give-up-btn,
+#hint-btn {
+	background: var(--button-color-light);
+	border-radius: 21px;
+	color: var(--bg-color-light);
+	min-width: 7em;
+	padding: 0.4em 0.75em;
+}
+
+#hint-btn[disabled] {
+	cursor: auto;
+	filter: brightness(75%);
+}
+
+#guesses {
+	margin-bottom: 40px;
+}
+
+#guess {
+	width: 100%;
+}
+
+#stats {
+	display: none;
+	flex-direction: column;
+	gap: 1em;
+}
+
+th#chronoOrder {
+	max-width: 4em;
+	min-width: 2em;
+}
+
+th#alphaOrder,
+th#similarityOrder {
+	max-width: 8em;
+}
+
+th#gettingClose {
+	max-width: 15em;
+}
+
+th#chronoOrder,
+th#alphaOrder,
+th#similarityOrder,
+input:not([type="text"]),
+button {
+	cursor: pointer;
+}
+
+th#similarityOrder,
+th#gettingClose {
+	text-align: center;
+}
+
+#toggle-stats-btn {
+	font-size: 12px;
+}
+
+.action-btns {
+	display: flex;
+	gap: 0.5em;
+}
+
+.auto {
+	margin: auto;
+}
+
+.application-content {
+	flex: 1 0 auto;
+	/* max-width: 1024px; */
+	width: 100%;
+}
+
+.cont {
+	max-width: 800px;
+	/* height: 100%; */
+	min-height: calc(100vh - 60px);
+	width: 100%;
+}
+
+.dialog-underlay {
+	background: rgba(0, 0, 0, 0.5);
+	bottom: 0;
+	display: none;
+	left: 0;
+	position: fixed;
+	right: 0;
+	top: 0;
+	z-index: 1000;
+}
+
+.dialog {
+	background: white;
+	border-radius: 15px;
+	left: 2em;
+	margin-bottom: 2em;
+	margin-left: auto;
+	margin-right: auto;
+	max-width: 40em;
+	overflow: hidden;
+	position: fixed;
+	right: 2em;
+	top: 3em;
+}
+
+.dialog-close {
+	color: black;
+	font-size: 1.5em;
+	height: 1em;
+	line-height: 1em;
+	position: absolute;
+	right: 1em;
+	top: 0.5em;
+	width: 1em;
+}
+
+.main-title {
+	color: hsl(286, 28%, 55%);
+	color: var(--menu-icon-color-light);
+	font-family: "Purple Purse", cursive;
+	font-size: 40px;
+	/* font-size: 500px; */
+	font-weight: 500;
+	margin-bottom: 0.2em;
+}
+
+.dialog-content {
+	background: var(--dialog-bg-color-light);
+	max-height: calc(100vh - 5em);
+	overflow: auto;
+	padding: 2em;
+	z-index: 1000;
+}
+
+.dialog-content > *:first-child {
+	margin-top: 0;
+}
+
+.dialog-content > *:last-child {
+	margin-bottom: 0;
+}
+
+.similarity-story {
+	width: 100%;
+}
+
+.end-message {
+	background-color: var(--input-bg-color-light);
+	border: none;
+	border-radius: 21px;
+	margin-bottom: 1em;
+	padding: 1em;
+}
+
+.end-message > *:first-child {
+	margin-top: 0;
+}
+
+.closeness {
+	display: flex;
+	justify-content: center;
+}
+
+.percentile,
+.progress-container,
+.progress-bar {
+	display: inline-block;
+	height: 1.4em;
+	z-index: 12;
+}
+
+.percentile {
+	align-items: center;
+	display: flex;
+	justify-content: center;
+	position: absolute;
+	width: 5em;
+}
+
+.progress-container {
+	background-color: #eeeeee;
+	background-color: var(--progress-bar-bg-color-light);
+	border-radius: 0.75em;
+	overflow: hidden;
+	width: 9em;
+	z-index: 10;
+}
+
+.progress-bar {
+	background: linear-gradient(
+		var(--progress-bar-gradient1-light),
+		var(--progress-bar-gradient2-light)
+	);
+	z-index: 10;
+}
+
+.weirdWord {
+	align-items: center;
+	color: var(--button-color-light);
+	display: flex;
+	justify-content: center;
+	position: relative;
+}
+
+.pcont {
+	align-items: center;
+	display: inline-flex;
+	justify-content: center;
+	max-width: 15em;
+	position: relative;
+}
+
+.weirdWord .tooltiptext {
+	background-color: var(--input-bg-color-light);
+	border: 1px solid rgb(82, 82, 82);
+	border-radius: 1ex;
+	color: var(--text-color-light);
+	/* color: #fff; */
+	font-size: 15px;
+	padding: 0.5rem 1rem;
+	position: absolute;
+	right: 1px;
+	text-align: center;
+	visibility: hidden;
+	width: 20em;
+	z-index: 999;
+}
+
+.weirdWord:hover .tooltiptext {
+	visibility: visible;
+}
+
+.faq-cont {
+	display: flex;
+	flex-direction: column;
+	gap: 0.2em;
+}
+
+.accordion {
+	background-color: var(--accordion-active-color-light);
+	border: none;
+	color: rgb(252, 252, 252);
+	color: var(--text-color-light);
+	cursor: pointer;
+	outline: none;
+	padding: 18px;
+	text-align: left;
+	transition: 0.4s;
+	width: 100%;
+}
+
+.accordion:first-child {
+	border-radius: 15px 15px 0 0;
+}
+
+.accordion:nth-last-child(3) {
+	border-radius: 0 0 15px 15px;
+}
+
+.accordion.active:nth-last-child(3) {
+	border-radius: 0;
+}
+
+.accordion:after {
+	color: var(--text-color-light);
+	content: "\002B";
+	float: right;
+	font-weight: bold;
+	margin-left: 5px;
+}
+
+.active:after {
+	content: "\2212";
+}
+
+.panel {
+	background-color: var(--input-bg-color-light);
+	font-size: 0.9em;
+	max-height: 0;
+	overflow: hidden;
+	padding: 0 1.5em;
+	transition: max-height 0.2s ease-out;
+}
+
+.guess-table,
+.nearby-table {
+	width: 100%;
+}
+.nearby-table {
+	margin-top: 2em;
+}
+
+.nearby-table > tr > th {
+	color: yellow;
+	font-weight: 500;
+}
+
+.hint-used-icon {
+	color: hsl(48, 42%, 59%);
+	display: inline-block;
+	margin: auto 0;
+	padding-left: 0.25em;
+}
+
+.spoiler-warning:hover {
+	cursor: pointer;
+}
+
+.checkmark-icon {
+	animation-duration: 1s;
+	animation-iteration-count: infinite;
+	animation-name: pulse;
+	color: var(--progress-bar-gradient2-light);
+	height: 1.5em;
+	transform-box: fill-box;
+	transform-origin: center center;
+}
+
+.getting-close-row {
+	display: flex;
+	gap: 0.2em;
+	justify-content: center;
+}
+
+@keyframes pulse {
+	0% {
+		transform: scale(1, 1);
+	}
+	50% {
+		transform: scale(1.2, 1.2);
+	}
+	100% {
+		transform: scale(1, 1);
+	}
+}
+
+.navmenu-icon {
+	transform-origin: 50% 50%;
+	transition: all 0.3s;
+}
+
+.share-and-toggle-stats {
+	display: flex;
+	justify-content: space-between;
+}
+
+/* Dark mode */
+
+body.dark ::placeholder {
+	color: hsl(0, 1%, 83%);
+	opacity: 1;
+}
+body.dark {
+	background: var(--bg-color-dark);
+	color: #fafafa;
+	color-scheme: dark;
+}
+
+body.dark a {
+	color: #9af;
+}
+
+body.dark hr {
+	/* border-color: var(--text-color-dark); */
+	border-color: rgb(187, 187, 187);
+}
+
+body.dark #guess-wrapper input {
+	background-color: var(--input-bg-color-dark);
+}
+
+body.dark #guess-wrapper input#guess-btn {
+	background-color: var(--guess-btn-color-dark);
+	color: white;
+}
+
+body.dark #menu button {
+	color: #fafafa;
+}
+
+body.dark #toggle-stats-btn,
+body.dark #give-up-btn,
+body.dark #hint-btn {
+	background: var(--button-color-dark);
+	color: white;
+}
+
+body.dark .accordion {
+	background-color: var(--accordion-active-color-dark);
+	color: var(--text-color-dark);
+}
+
+body.dark .accordion:after {
+	color: var(--text-color-dark);
+}
+
+body.dark .checkmark-icon {
+	color: var(--progress-bar-gradient1-dark);
+}
+
+body.dark .dialog {
+	background: #333;
+	z-index: 1000;
+}
+
+body.dark .dialog-close {
+	color: #fafafa;
+	display: flex;
+}
+
+body.dark .dialog-content {
+	background: var(--dialog-bg-color-dark);
+}
+
+body.dark .end-message {
+	background-color: var(--input-bg-color-dark);
+}
+
+body.dark .hint-used-icon {
+	color: yellow;
+}
+
+body.dark .main-title {
+	color: white;
+}
+
+body.dark .panel {
+	background-color: var(--dialog-bg-color-dark);
+}
+
+body.dark .progress-container {
+	background-color: var(--progress-bar-bg-color-dark);
+}
+
+body.dark .progress-bar {
+	background: linear-gradient(
+		var(--progress-bar-gradient1-dark),
+		var(--progress-bar-gradient2-dark)
+	);
+}
+
+body.dark .weirdWord {
+	border-color: #fafafa;
+	color: white;
+}
+
+body.dark .weirdWord .tooltiptext {
+	background-color: var(--input-bg-color-dark);
+	color: var(--text-color-dark);
+}
+
+/* Media queries */
+
+@media only screen and (max-width: 640px) {
+	body,
+	input,
+	button,
+	button#accordion {
+		font-size: 14px;
+	}
+
+	.main-title {
+		font-size: 32px;
+	}
+
+	footer {
+		font-size: 11px;
+	}
+
+	th {
+		padding-right: 0.5em;
+	}
+
+	.weirdWord .tooltiptext {
+		font-size: 14px;
+	}
+	h2 {
+		font-size: 15px;
+	}
+
+	.accordion {
+		padding: 10px;
+	}
+
+	.panel {
+		padding: 0 1em;
+	}
+}
+
+@media only screen and (min-width: 600px) {
+	input[type="button"]:hover:not([disabled]),
+	input#guess-btn:hover {
+		box-shadow: inset 0 0 100px 100px rgba(255, 255, 255, 0.1);
+	}
+
+	.navmenu-icon:hover {
+		transform: scale(1.35);
+	}
+}
