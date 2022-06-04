@@ -22,7 +22,7 @@ let model = null;
 const now = Date.now() + 10800000; // add 10800000 for UTC+3
 const today = Math.floor(now / 86400000);
 // console.log('TODAY:', today)
-const initialDay = 19146; // oikeasti 19146
+const initialDay = 19145; // oikeasti 19145
 const puzzleNumber = (today - initialDay) % secretWordsEncoded.length;
 const handleStats = puzzleNumber >= 1;
 const yesterdayPuzzleNumber =
