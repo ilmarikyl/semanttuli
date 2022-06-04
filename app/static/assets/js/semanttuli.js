@@ -33,7 +33,7 @@ let caps = 0;
 let warnedCaps = 0;
 let chrono_forward = 1;
 let darkMode = true;
-const MAX_HINT_AMOUNT = 10;
+const MAX_HINT_AMOUNT = 12;
 
 function $(q) {
 	return document.querySelector(q);
