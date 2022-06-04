@@ -33,7 +33,7 @@ let caps = 0;
 let warnedCaps = 0;
 let chrono_forward = 1;
 let darkMode = true;
-const MAX_HINT_AMOUNT = 12;
+const MAX_HINT_AMOUNT = 15;
 
 function $(q) {
 	return document.querySelector(q);
@@ -468,10 +468,14 @@ let Semanttuli = (function () {
 				}
 
 				if (biggestPercentile >= 950) {
-					reqPercentile = biggestPercentile + 10;
+					reqPercentile = biggestPercentile + 25;
 				}
 
-				if (biggestPercentile >= 985) {
+				if (biggestPercentile >= 965) {
+					reqPercentile = biggestPercentile + 15;
+				}
+
+				if (biggestPercentile >= 984) {
 					reqPercentile = biggestPercentile + 5;
 				}
 
