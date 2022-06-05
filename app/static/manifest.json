@@ -1,6 +1,6 @@
 {
-	"name": "Semanttuli_beta",
-	"short_name": "Semanttuli_beta",
+	"name": "Semanttuli",
+	"short_name": "Semanttuli",
 	"start_url": ".",
 	"display": "standalone",
 	"background_color": "#fff",
