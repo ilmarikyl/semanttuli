@@ -54,6 +54,18 @@ def decode_secret(base64_secret):
 def send_index():
     return send_file("static/index.html")
 
+@app.route('/offline.html')
+def offline():
+    return send_file('static/offline.html')
+
+@app.route("/manifest.json")
+def manifest():
+    return send_file("static/manifest.json")
+
+@app.route("/sw.js")
+def sw():
+    return send_file("static/sw.js")
+
 
 @app.route("/favicon.ico")
 def send_favicon():
