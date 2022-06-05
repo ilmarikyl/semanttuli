@@ -4,21 +4,25 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <title>Semanttuli</title>
+  <title>Semanttuli&beta;</title>
   <script src="assets/js/secretWordsEncoded.js?2"></script>
   <script src="assets/js/clipboard.js"></script>
-  <!-- Global site tag (gtag.js) - Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-03NS0EB121"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
-    gtag('config', 'G-03NS0EB121');
-  </script>
+  <!-- <script src="assets/js/site.js"></script> -->
+
+  <!-- <script type="module">
+    import 'https://cdn.jsdelivr.net/npm/@pwabuilder/pwaupdate';
+    const el = document.createElement('pwa-update');
+    document.body.appendChild(el);
+  </script> -->
+
   <link rel="stylesheet" href="assets/styles.css">
   <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png">
-  <link rel="manifest" href="assets/site.webmanifest">
+  <link rel="icon" type="image/png" sizes="192x192" href="assets/android-chrome-192x192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="assets/android-chrome-512x512.png">
+  <!-- <link rel="manifest" href="assets/site.webmanifest"> -->
+  <link rel="manifest" href="manifest.json">
+
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -45,7 +49,7 @@
     <div class="cont auto">
       <script src="assets/js/semanttuli.js"></script>
       <header>
-        <h2 class="main-title">Semanttuli</h2>
+        <h2 class="main-title">Semanttuli<sup>&beta;</sup></h2>
         <nav id="menu">
           <button class="nav-button" id="rules-button" aria-label="Rules">
             <svg class="navmenu-icon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 18 18"
@@ -253,6 +257,27 @@
       </div>
     </footer>
   </div>
+
+  <script>
+    // Check if browser supports service workers
+    if (navigator.serviceWorker) {
+      console.log("Service Worker Supported");
+
+      // Start registration process on page load
+      window.addEventListener("load", () => {
+        navigator.serviceWorker
+
+          // The register function takes as argument
+          // the file path to the worker's file
+          .register("./sw.js")
+
+          // Gives us registration object
+          .then(reg => console.log("Service Worker Registered"))
+          .catch(swErr => console.log(
+            `Service Worker Error: ${swErr}}`));
+      });
+    }
+  </script>
 
 </body>
 

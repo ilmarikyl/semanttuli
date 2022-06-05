@@ -1,6 +1,6 @@
 FROM python:3.10.4-buster
   
-WORKDIR /usr/src/app
+WORKDIR /usr/src/semanttuli-app
 
 COPY requirements.txt ./
 
