@@ -1,0 +1,6 @@
+[{
+        "relation": ["delegate_permission/common.handle_all_urls"],
+        "target" : { "namespace": "android_app", "package_name": "com.herokuapp.semanttuli.twa",
+                     "sha256_cert_fingerprints": ["F5:E4:5D:DE:1D:F0:88:D8:E0:4B:86:EE:20:EE:8E:1C:31:BA:DE:74:BA:15:B2:46:66:FA:A8:04:A3:89:A9:AA"] }
+      }
+]
