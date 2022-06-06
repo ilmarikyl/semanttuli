@@ -8,7 +8,7 @@ Two ways to run locally:
 ### **Pipenv**
 1. Run `pipenv install` (install pipenv with `pip install pipenv` if necessary)
 2. Run `pipenv run python wsgi.py`
-   * If no MongoDB connection string is provided as env variable, backend will connect to a read-only development database.
+   * If no MongoDB connection string is provided as env variable, backend will connect to a read-only development database
 3. App should now be running in http://localhost:33507
 
 
