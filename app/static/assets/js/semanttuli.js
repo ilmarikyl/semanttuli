@@ -557,13 +557,13 @@ let Semanttuli = (function () {
 			if (guess[0].toLowerCase() != guess[0]) {
 				caps += 1;
 			}
-			if (caps >= 2 && caps / guesses.length > 0.4 && !warnedCaps) {
-				warnedCaps = true;
-				$("#lower").checked = confirm(
-					'You\'re entering a lot of words with initial capital letters. This is probably not what you want to do, and it\'s probably caused by your phone keyboard ignoring the autocapitalize setting.  "Nice" is a city. "nice" is an adjective.  Do you want me to downcase your guesses for you?'
-				);
-				storage.setItem("lower", "true");
-			}
+			// if (caps >= 2 && caps / guesses.length > 0.4 && !warnedCaps) { // TEMPORARILY DISABLED
+			// 	warnedCaps = true;
+			// 	$("#lower").checked = confirm(
+			// 		'Näytät syöttävän useita isolla kirjaimella alkavia sanoja. Se ei luultavasti ole tarkoituksellista ja saattaa johtua siitä, että puhelimesi näppäimistö syöttää ensimmäinen kirjaimen oletuksena isolla. Do you want me to downcase your guesses for you?'
+			// 	);
+			// 	storage.setItem("lower", "true");
+			// }
 
 			$("#guess").value = "";
 
@@ -875,12 +875,16 @@ let Semanttuli = (function () {
 		if (won) {
 			response = `<p>
 							<span style="font-weight: 500"> Löysit sanan ${guesses.length}. yrityksellä! </span>Salainen sana on <span style="font-weight: 500">"${decodedSecret}"</span>. Käytit yhteensä ${hintCount} vinkkiä. Voit halutessasi yhä jatkaa sanojen syöttämistä. Listan tuhannesta sanaa "${decodedSecret}" lähimmästä sanasta löydät <a href="nearby_1k/${secret}">täältä</a>.
-							<br/><br/>Semanttuli-sovellus on nyt myös ladattavissa Android-laitteille <a target="_blank"
-							rel="noopener noreferrer"
-							href="https://play.google.com/store/apps/details?id=com.herokuapp.semanttuli.twa">Google Play
-							Kaupasta</a>!<br/>
-							<div class="share-and-toggle-stats"><span style="align-self: center">Klikkaa <a href="javascript:share();">tästä</a> jakaaksesi tuloksesi.</span>
-							<button onclick="toggleStatVisibility()" id="toggle-stats-btn">Näytä tilastot</button></div>
+							<br/><br/>
+							Semanttuli-sovellus on nyt myös ladattavissa Android-laitteille <a target="_blank" rel="noopener noreferrer" href="https://play.google.com/store/apps/details?id=com.herokuapp.semanttuli.twa">Google Play
+							Kaupasta</a>!
+							<br/>
+							<div class="share-and-toggle-stats">
+								<span style="align-self: center">
+									Klikkaa <a href="javascript:share();">tästä</a> jakaaksesi tuloksesi.
+								</span>
+								<button onclick="toggleStatVisibility()" id="toggle-stats-btn">Näytä tilastot</button>
+							</div>
 						</p>`;
 		} else {
 			response = `<p>
