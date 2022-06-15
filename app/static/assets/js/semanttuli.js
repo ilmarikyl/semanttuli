@@ -212,18 +212,45 @@ function guessRow(
 // 	$("#localtime").innerHTML = `klo ${now.getHours()}:00 paikallista aikaa.`;
 // }
 
+function mapToEmoji(number) {
+	const emojiDict = {
+		0: "0️⃣",
+		1: "1️⃣",
+		2: "2️⃣",
+		3: "3️⃣",
+		4: "4️⃣",
+		5: "5️⃣",
+		6: "6️⃣",
+		7: "7️⃣",
+		8: "8️⃣",
+		9: "9️⃣",
+	};
+	let emojiStr = "";
+	const chars = Array.from(String(number)).map((e) => parseInt(e));
+
+	chars.forEach((e) => {
+		emojiStr += emojiDict[e];
+	});
+
+	return emojiStr;
+}
+
 function solveStory(guesses, puzzleNumber, gaveUp = false) {
 	const guess_count = guesses.length;
 	if (guess_count == 0) {
-		return `Luovutin Semanttulin #${puzzleNumber} kanssa arvaamatta kertaakaan | semanttuli.herokuapp.com`;
+		return `🚫 Luovutin Semanttulin #${puzzleNumber} kanssa arvaamatta kertaakaan | semanttuli.herokuapp.com`;
 	}
 
 	if (gaveUp) {
-		return `Luovutin Semanttuli #${puzzleNumber}:n kanssa ${guess_count} yrityksen ja ${hintCount} vinkin jälkeen | semanttuli.herokuapp.com`;
+		return `🚫 Semanttuli #${puzzleNumber} luovutettu ${mapToEmoji(
+			guess_count
+		)} arvauksen ja ${mapToEmoji(
+			hintCount
+		)} vinkin jälkeen | semanttuli.herokuapp.com`;
 	}
 
 	if (guess_count == 1) {
-		return `Ratkaisin Semanttulin #${puzzleNumber} ensimmäisellä yrityksellä! | semanttuli.herokuapp.com`;
+		return `✅ Semanttuli #${puzzleNumber} ratkaistu ensimmäisellä yrityksellä! | semanttuli.herokuapp.com`;
 	}
 
 	let describe = function (similarity, percentile) {
@@ -243,7 +270,7 @@ function solveStory(guesses, puzzleNumber, gaveUp = false) {
 	let first_guess = `Ensimmäisen arvaukseni samankaltaisuus oli ${describe(
 		similarity,
 		percentile
-	)}. `;
+	)}`;
 	let first_guess_in_top = !!percentile;
 
 	let first_hit = "";
@@ -251,7 +278,7 @@ function solveStory(guesses, puzzleNumber, gaveUp = false) {
 		for (let entry of guesses_chrono) {
 			[similarity, old_guess, percentile, guess_number] = entry;
 			if (percentile) {
-				first_hit = `Arvaus #${guess_number} oli ensimmäinen arvaukseni top 1000:ssa. `;
+				first_hit = `Arvaus #${guess_number} oli ensimmäinen arvaukseni top 1000:ssa`;
 				break;
 			}
 		}
@@ -264,7 +291,11 @@ function solveStory(guesses, puzzleNumber, gaveUp = false) {
 		percentile
 	)}`;
 
-	return `Ratkaisin ${puzzleNumber}. Semanttulin ${guess_count} yrityksellä ja ${hintCount} vinkillä. ${first_guess}${first_hit}${penultimate_guess_msg} | semanttuli.herokuapp.com`;
+	return `✅ Semanttuli #${puzzleNumber} ratkaistu: ${mapToEmoji(
+		guess_count
+	)} arvausta ja ${mapToEmoji(
+		hintCount
+	)} vinkkiä\n\n▪️${first_guess}\n▪️${first_hit}\n▪️${penultimate_guess_msg}\n\nsemanttuli.herokuapp.com`;
 }
 
 let Semanttuli = (function () {
