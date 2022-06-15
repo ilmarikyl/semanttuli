@@ -136,7 +136,7 @@ function guessRow(
 	guess,
 	wasHint
 ) {
-	let percentileText = "kylmää";
+	let percentileText = "❄️";
 	let progress = "";
 	if (similarity >= similarityStory.top1000 * 100) {
 		percentileText = `<span class="weirdWord">
