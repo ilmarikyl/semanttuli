@@ -60,6 +60,11 @@ def offline():
     return send_file("static/offline.html")
 
 
+@app.route("/yksityisyyskaytanto")
+def privacy_policy():
+    return send_file("static/privacy_policy.html")
+
+
 @app.route("/manifest.json")
 def manifest():
     return send_file("static/manifest.json")
