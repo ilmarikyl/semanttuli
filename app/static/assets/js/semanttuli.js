@@ -266,11 +266,13 @@ function solveStory(guesses, puzzleNumber, gaveUp = false) {
 		return a[3] - b[3];
 	});
 
-	let [similarity, old_guess, percentile, guess_number] = guesses_chrono[0];
-	let first_guess = `Ensimmäisen arvaukseni samankaltaisuus oli ${describe(
+	let [similarity, old_guess, percentile, guess_number, wasHint] = guesses_chrono[0];
+	let wasHintText = wasHint ? " oli vinkki ja sen" : ""
+
+	let first_guess = `▪️Ensimmäisen arvaukseni${wasHintText} samankaltaisuus oli ${describe(
 		similarity,
 		percentile
-	)}`;
+	)}\n`;
 	let first_guess_in_top = !!percentile;
 
 	let first_hit = "";
@@ -278,7 +280,7 @@ function solveStory(guesses, puzzleNumber, gaveUp = false) {
 		for (let entry of guesses_chrono) {
 			[similarity, old_guess, percentile, guess_number] = entry;
 			if (percentile) {
-				first_hit = `Arvaus #${guess_number} oli ensimmäinen arvaukseni top 1000:ssa`;
+				first_hit = `▪️Arvaus #${guess_number} oli ensimmäinen arvaukseni top 1000:ssa\n`;
 				break;
 			}
 		}
@@ -286,16 +288,16 @@ function solveStory(guesses, puzzleNumber, gaveUp = false) {
 
 	const penultimate_guess = guesses_chrono[guesses_chrono.length - 2];
 	[similarity, old_guess, percentile, guess_number] = penultimate_guess;
-	const penultimate_guess_msg = `Toiseksi viimeisen arvaukseni samankaltaisuus oli ${describe(
+	const penultimate_guess_msg = `▪️Toiseksi viimeisen arvaukseni samankaltaisuus oli ${describe(
 		similarity,
 		percentile
-	)}`;
+	)}\n\n`;
 
 	return `✅ Semanttuli #${puzzleNumber} ratkaistu: ${mapToEmoji(
 		guess_count
 	)} arvausta ja ${mapToEmoji(
 		hintCount
-	)} vinkkiä\n\n▪️${first_guess}\n▪️${first_hit}\n▪️${penultimate_guess_msg}\n\nsemanttuli.herokuapp.com`;
+	)} vinkkiä\n\n${first_guess}${first_hit}${penultimate_guess_msg}semanttuli.herokuapp.com`;
 }
 
 let Semanttuli = (function () {
