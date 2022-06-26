@@ -9,7 +9,9 @@
 
 	The code is based on the source code of Semantle by David Turner.
 */
-"use strict";
+("use strict");
+
+import confetti from "https://cdn.skypack.dev/canvas-confetti";
 
 let gameOver = false;
 let firstGuess = true;
@@ -18,7 +20,7 @@ let latestGuess = undefined;
 let guessed = new Set();
 let guessCount = 0;
 let hintCount = 0;
-let model = null;
+let windowWidth = window.innerWidth;
 const now = Date.now() + 10800000; // add 10800000 for UTC+3
 const today = Math.floor(now / 86400000);
 // console.log('TODAY:', today)
@@ -266,8 +268,9 @@ function solveStory(guesses, puzzleNumber, gaveUp = false) {
 		return a[3] - b[3];
 	});
 
-	let [similarity, old_guess, percentile, guess_number, wasHint] = guesses_chrono[0];
-	let wasHintText = wasHint ? " oli vinkki ja sen" : ""
+	let [similarity, old_guess, percentile, guess_number, wasHint] =
+		guesses_chrono[0];
+	let wasHintText = wasHint ? " oli vinkki ja sen" : "";
 
 	let first_guess = `▪️Ensimmäisen arvaukseni${wasHintText} samankaltaisuus oli ${describe(
 		similarity,
@@ -874,6 +877,20 @@ let Semanttuli = (function () {
 		}
 	}
 
+	function celebrate() {
+		const colors = darkMode ? ["#311C40", "#9707CC", "#32B33D"] : ["#A78FAE", "#28D252", "#DFD3C3"]
+		const originY = windowWidth >= 720 ? 0.3 : 0.5
+		const spread = windowWidth >= 720 ? 120 : 60
+
+		confetti({
+			particleCount: 150,
+			spread: spread,
+			origin: { y: originY },
+			colors,
+			disableForReducedMotion: true,
+		});
+	}
+
 	function endGame(won, countStats) {
 		let stats;
 		if (handleStats) {
@@ -906,6 +923,8 @@ let Semanttuli = (function () {
 		let response;
 		let decodedSecret = decodeB64(secret);
 		if (won) {
+			celebrate();
+
 			response = `<p>
 							<span style="font-weight: 500"> Löysit sanan ${guesses.length}. yrityksellä! </span>Salainen sana on <span style="font-weight: 500">"${decodedSecret}"</span>. Käytit yhteensä ${hintCount} vinkkiä. Voit halutessasi yhä jatkaa sanojen syöttämistä. Listan tuhannesta sanaa "${decodedSecret}" lähimmästä sanasta löydät <a href="nearby_1k/${secret}">täältä</a>.
 							<br/><br/>
