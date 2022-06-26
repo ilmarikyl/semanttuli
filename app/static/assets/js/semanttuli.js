@@ -107,19 +107,6 @@ function share(gaveUp = false) {
 	}
 }
 
-function toggleStatVisibility() {
-	let statsDiv = document.getElementById("stats");
-	let toggleButton = document.getElementById("toggle-stats-btn");
-
-	if (statsDiv.style.display === "none" || !statsDiv.style.display) {
-		statsDiv.style.display = "flex";
-		toggleButton.textContent = "Piilota tilastot";
-	} else {
-		statsDiv.style.display = "none";
-		toggleButton.textContent = "Näytä tilastot";
-	}
-}
-
 function decodeB64(b64_word) {
 	return decodeURIComponent(escape(atob(b64_word)));
 }
@@ -878,9 +865,11 @@ let Semanttuli = (function () {
 	}
 
 	function celebrate() {
-		const colors = darkMode ? ["#311C40", "#9707CC", "#32B33D"] : ["#A78FAE", "#28D252", "#DFD3C3"]
-		const originY = windowWidth >= 720 ? 0.3 : 0.5
-		const spread = windowWidth >= 720 ? 120 : 60
+		const colors = darkMode
+			? ["#311C40", "#9707CC", "#32B33D"]
+			: ["#A78FAE", "#28D252", "#311C40"];
+		const originY = windowWidth >= 720 ? 0.3 : 0.5;
+		const spread = windowWidth >= 720 ? 120 : 60;
 
 		confetti({
 			particleCount: 150,
