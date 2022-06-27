@@ -90,7 +90,18 @@ function project_along(v1, v2, t) {
 	return num / denom;
 }
 
-function share(gaveUp = false) {
+function decodeB64(b64_word) {
+	return decodeURIComponent(escape(atob(b64_word)));
+}
+
+const words_selected = [];
+const cache = {};
+let secret = "";
+let secretVec = null;
+let similarityStory = null;
+
+// Start with window.X because otherwise HTML elements can't find the function (it's in module scope)
+window.share = function (gaveUp = false) {
 	// We use the stored guesses here, because those are not updated again
 	// once you win -- we don't want to include post-win guesses here.
 	const text = solveStory(
@@ -105,17 +116,20 @@ function share(gaveUp = false) {
 	} else {
 		alert("Tuloksen kopioiminen leikepöydälle ei onnistunut");
 	}
-}
+};
 
-function decodeB64(b64_word) {
-	return decodeURIComponent(escape(atob(b64_word)));
-}
+window.toggleStatVisibility = function () {
+	let statsDiv = document.getElementById("stats");
+	let toggleButton = document.getElementById("toggle-stats-btn");
 
-const words_selected = [];
-const cache = {};
-let secret = "";
-let secretVec = null;
-let similarityStory = null;
+	if (statsDiv.style.display === "none" || !statsDiv.style.display) {
+		statsDiv.style.display = "flex";
+		toggleButton.textContent = "Piilota tilastot";
+	} else {
+		statsDiv.style.display = "none";
+		toggleButton.textContent = "Näytä tilastot";
+	}
+};
 
 function guessRow(
 	similarity,
