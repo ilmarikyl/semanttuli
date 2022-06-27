@@ -881,7 +881,7 @@ let Semanttuli = (function () {
 	function celebrate() {
 		const colors = darkMode
 			? ["#311C40", "#9707CC", "#32B33D"]
-			: ["#A78FAE", "#28D252", "#311C40"];
+			: ["#A78FAE", "#28D252", "#F5EE22"];
 		const originY = windowWidth >= 720 ? 0.3 : 0.5;
 		const spread = windowWidth >= 720 ? 120 : 60;
 
