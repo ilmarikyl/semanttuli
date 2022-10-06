@@ -1,6 +1,6 @@
 # Semanttuli
 
-Available at [semanttuli.herokuapp.com](https://semanttuli.herokuapp.com/)
+Available at [semanttuli.fly.dev](https://semanttuli.fly.dev/)
 
 ---
 

@@ -241,7 +241,7 @@ function mapToEmoji(number) {
 function solveStory(guesses, puzzleNumber, gaveUp = false) {
 	const guess_count = guesses.length;
 	if (guess_count == 0) {
-		return `🚫 Luovutin Semanttulin #${puzzleNumber} kanssa arvaamatta kertaakaan | semanttuli.herokuapp.com`;
+		return `🚫 Luovutin Semanttulin #${puzzleNumber} kanssa arvaamatta kertaakaan | semanttuli.fly.dev`;
 	}
 
 	if (gaveUp) {
@@ -249,11 +249,11 @@ function solveStory(guesses, puzzleNumber, gaveUp = false) {
 			guess_count
 		)} arvauksen ja ${mapToEmoji(
 			hintCount
-		)} vinkin jälkeen | semanttuli.herokuapp.com`;
+		)} vinkin jälkeen | semanttuli.fly.dev`;
 	}
 
 	if (guess_count == 1) {
-		return `✅ Semanttuli #${puzzleNumber} ratkaistu ensimmäisellä yrityksellä! | semanttuli.herokuapp.com`;
+		return `✅ Semanttuli #${puzzleNumber} ratkaistu ensimmäisellä yrityksellä! | semanttuli.fly.dev`;
 	}
 
 	let describe = function (similarity, percentile) {
@@ -301,7 +301,7 @@ function solveStory(guesses, puzzleNumber, gaveUp = false) {
 		guess_count
 	)} arvausta ja ${mapToEmoji(
 		hintCount
-	)} vinkkiä\n\n${first_guess}${first_hit}${penultimate_guess_msg}semanttuli.herokuapp.com`;
+	)} vinkkiä\n\n${first_guess}${first_hit}${penultimate_guess_msg}semanttuli.fly.dev`;
 }
 
 let Semanttuli = (function () {
