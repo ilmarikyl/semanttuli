@@ -26,4 +26,4 @@ Two ways to run locally:
 
 ## Deployment
 
-- Deployment to production (Heroku) happens automatically when pushing to master branch
+- Deployment to production (fly.io) happens automatically when pushing to master branch -->

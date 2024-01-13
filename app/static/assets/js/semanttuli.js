@@ -402,11 +402,7 @@ let Semanttuli = (function () {
 			);
 
 			$("#similarity-story").innerHTML = `
-				<span style="color: red;">
-				Semanttuli on siirtynyt osoitteeseen <a href="https://semanttuli.fly.dev">semanttuli.fly.dev</a>. Tämä osoite lakkaa toimimasta viimeistään 28.11.22. Mikäli käytät Android-sovellusta, päivitä se uusimpaan versioon.
-			</span>
-			<br/>
-			Tämä on <b>${puzzleNumber}.</b> Semanttuli-peli. Lähimmän sanan samankaltaisuus on <b>${closestSimilarity}</b>, kymmenenneksi lähimmän ${top10Similarity} ja tuhannenneksi lähimmän ${top1000Similarity}.`;
+				Tämä on <b>${puzzleNumber}.</b> Semanttuli-peli. Lähimmän sanan samankaltaisuus on <b>${closestSimilarity}</b>, kymmenenneksi lähimmän ${top10Similarity} ja tuhannenneksi lähimmän ${top1000Similarity}.`;
 		} catch {
 			$("#similarity-story").innerHTML =
 				"Pelin metatietojen noutaminen ei onnistunut. Yritä myöhemmin uudestaan.";
