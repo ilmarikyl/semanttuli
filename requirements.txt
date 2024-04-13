@@ -2,7 +2,7 @@ gunicorn
 aniso8601==9.0.1
 click==8.0.3
 future==0.17.1
-gensim==4.1.2
+gensim==4.3.2
 itsdangerous==2.0.1
 joblib==1.1.0
 numpy==1.22.1
