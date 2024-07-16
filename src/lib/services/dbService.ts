@@ -1,11 +1,9 @@
 import { MongoClient, Db, Collection } from 'mongodb';
-import { config } from 'dotenv';
+import { MONGO_CONNECTION_STRING, DB_NAME } from '$env/static/private';
 import type { Document, WithId } from 'mongodb';
 
-config();
-
-const uri = process.env.MONGO_CONNECTION_STRING;
-const dbName = process.env.DB_NAME;
+const uri = MONGO_CONNECTION_STRING;
+const dbName = DB_NAME;
 
 if (!uri || !dbName) {
 	throw new Error('MONGO_CONNECTION_STRING or DB_NAME is not defined in the environment');
