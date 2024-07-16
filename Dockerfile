@@ -8,8 +8,7 @@ RUN npm ci
 
 # Copy source files and build the app
 COPY . .
-RUN npm run build && \
-    rm -rf src tests playwright.config.ts
+RUN npm run build
 
 # Start a new stage for a smaller final image
 FROM node:20-alpine AS production
