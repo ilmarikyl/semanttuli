@@ -1,8 +1,10 @@
 name: Fly Deploy
+
 on:
   push:
     branches:
       - master
+
 jobs:
   deploy:
     name: Deploy app
@@ -11,6 +13,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: superfly/flyctl-actions/setup-flyctl@master
-      - run: flyctl deploy --remote-only
+      - name: Deploy to Fly.io
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+          MONGO_CONNECTION_STRING: ${{ secrets.MONGO_CONNECTION_STRING }}
+          DB_NAME: ${{ secrets.DB_NAME }}
+        run: flyctl deploy --remote-only
