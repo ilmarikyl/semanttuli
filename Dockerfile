@@ -1,19 +1,36 @@
-FROM python:3.10.4-buster
-  
-WORKDIR /usr/src/semanttuli-app
+FROM node:20-alpine AS build
 
-COPY requirements.txt ./
+WORKDIR /app
 
-RUN pip install --no-cache-dir -r requirements.txt
+# Copy package files and install dependencies
+COPY package*.json ./
+RUN npm ci
 
-COPY wsgi.py .
-COPY app ./app
+# Copy source files and build the app
+COPY . .
+RUN npm run build && \
+    rm -rf src tests playwright.config.ts
 
-RUN chmod a+x .
-RUN useradd -m appuser
+# Start a new stage for a smaller final image
+FROM node:20-alpine AS production
 
-USER appuser
+LABEL Developers="Ilmari Kylliäinen"
 
-ENTRYPOINT [ "python" ]
+WORKDIR /app
 
-CMD ["wsgi.py"]
+# Copy built assets and package files from build stage
+COPY --from=build /app/build ./build
+COPY --from=build /app/package*.json ./
+
+# Install production dependencies
+RUN npm ci --only=production && \
+    npm cache clean --force
+
+# Use non-root user
+USER node
+
+ENV NODE_ENV=production
+ENV PORT=3000
+EXPOSE 3000
+
+CMD ["node", "build"]

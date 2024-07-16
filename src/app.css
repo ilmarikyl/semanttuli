@@ -1,0 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@200;300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Purple+Purse&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;500;600;700;800;900;1000&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Concert+One&family=Oswald:wght@200..700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+a {
+	color: #ef9c66;
+	text-decoration: underline;
+}
+
+.dark a {
+	color: #fdff87;
+}
+
+::selection {
+	background-color: #be9fe1;
+}
+
+.dark ::selection {
+	background-color: #2c74b3;
+}
