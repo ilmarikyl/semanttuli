@@ -1,9 +1,16 @@
 import { MongoClient, Db, Collection } from 'mongodb';
-import { MONGO_CONNECTION_STRING, DB_NAME } from '$env/static/private';
+import { config } from 'dotenv';
 import type { Document, WithId } from 'mongodb';
 
-const uri = MONGO_CONNECTION_STRING;
-const dbName = DB_NAME;
+config();
+
+let uri = process.env.MONGO_CONNECTION_STRING || 'MONGO_CONNECTION_STRING_PLACEHOLDER';
+let dbName = process.env.DB_NAME || 'DB_NAME_PLACEHOLDER';
+
+export function updateConnectionDetails(newUri: string, newDbName: string) {
+	uri = newUri;
+	dbName = newDbName;
+}
 
 if (!uri || !dbName) {
 	throw new Error('MONGO_CONNECTION_STRING or DB_NAME is not defined in the environment');
