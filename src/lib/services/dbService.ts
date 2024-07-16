@@ -4,13 +4,8 @@ import type { Document, WithId } from 'mongodb';
 
 config();
 
-let uri = process.env.MONGO_CONNECTION_STRING || 'MONGO_CONNECTION_STRING_PLACEHOLDER';
-let dbName = process.env.DB_NAME || 'DB_NAME_PLACEHOLDER';
-
-export function updateConnectionDetails(newUri: string, newDbName: string) {
-	uri = newUri;
-	dbName = newDbName;
-}
+const uri = process.env.MONGO_CONNECTION_STRING;
+const dbName = process.env.DB_NAME;
 
 if (!uri || !dbName) {
 	throw new Error('MONGO_CONNECTION_STRING or DB_NAME is not defined in the environment');
