@@ -2,7 +2,7 @@ import type { RequestHandler } from '@sveltejs/kit';
 import { getModel } from '$lib/api';
 import { json } from '@sveltejs/kit';
 
-export const POST: RequestHandler = async ({ params }) => {
+export const GET: RequestHandler = async ({ params }) => {
 	const { secret, word } = params;
 
 	if (!secret || !word) {

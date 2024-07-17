@@ -194,6 +194,19 @@ export const loadGameState = (actualGameNumber: number) => {
 		if (savedStats) {
 			try {
 				parsedStats = JSON.parse(savedStats) as GameStats;
+
+				// Check validity
+				if (parsedStats.abandons == null) parsedStats.abandons = 0;
+				if (parsedStats.giveUps == null) parsedStats.giveUps = 0;
+				if (parsedStats.wins == null) parsedStats.wins = 0;
+
+				const requiredTotalPlayDays = parsedStats.abandons + parsedStats.giveUps + parsedStats.wins;
+				if (
+					parsedStats.totalPlayDays == null ||
+					parsedStats.totalPlayDays < requiredTotalPlayDays
+				) {
+					parsedStats.totalPlayDays = requiredTotalPlayDays;
+				}
 			} catch (e) {
 				console.error('Error parsing saved stats:', e);
 			}

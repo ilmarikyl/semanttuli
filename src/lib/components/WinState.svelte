@@ -4,6 +4,7 @@
 	import { getClipboardContent } from '$lib/utils/utils';
 	import { decodeB64word } from '$lib/utils/utils';
 	import { statsStore } from '$stores/stats';
+	import { hideKeyboard } from '$stores/keyboard';
 	import type { Guess } from '$lib/types';
 
 	export let winState: string;
@@ -14,7 +15,7 @@
 
 	let displayCopied = false;
 
-	$: showStats = winState === 'won';
+	let showStats = false;
 
 	function displayCopiedText() {
 		setTimeout(() => {
@@ -24,6 +25,10 @@
 	}
 
 	function toggleStats() {
+		if (!showStats) {
+			hideKeyboard();
+		}
+
 		showStats = !showStats;
 	}
 

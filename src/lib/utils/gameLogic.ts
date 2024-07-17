@@ -97,7 +97,7 @@ export async function processGuess(
 ) {
 	try {
 		const url = `/api/model/${secretWord}/${guess}`;
-		const response = await fetch(url, { method: 'POST' });
+		const response = await fetch(url);
 
 		if (!response.ok) {
 			if (response.status === 404) {
@@ -106,7 +106,6 @@ export async function processGuess(
 				return { error: 'Tapahtui odottamaton virhe, yritä uudelleen 🤔' };
 			}
 		}
-
 		const data = await response.json();
 		const guessNumber = get(gameState).guesses.length + 1;
 
@@ -122,8 +121,6 @@ export async function processGuess(
 			similarityScore = getCosSim(guessVec, secretWordVec);
 			rank = 0;
 		}
-
-		console.log(`Similarity score: ${similarityScore.toFixed(2)}%`);
 
 		const isCorrectGuess = guess.toLowerCase() === decodeB64word(secretWord);
 
