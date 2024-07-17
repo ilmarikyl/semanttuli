@@ -1,6 +1,6 @@
 <script>
 	import '../app.css';
-	import { Navbar, Footer } from '$components';
+	import { Analytics, Footer, Navbar } from '$components';
 </script>
 
 <svelte:head>
@@ -23,6 +23,8 @@
 		})();
 	</script>
 </svelte:head>
+
+<Analytics />
 
 <div
 	class="flex min-h-screen flex-col bg-bg-light text-text-light transition-colors duration-500 ease-in-out dark:bg-bg-dark dark:text-text-dark"
