@@ -75,3 +75,9 @@
 		<p>No nearby words found.</p>
 	{/if}
 </div>
+
+<style>
+	.all-guesses tr:first-child td {
+		padding-top: 0.3rem;
+	}
+</style>

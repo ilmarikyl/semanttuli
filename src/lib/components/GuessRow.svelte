@@ -36,7 +36,10 @@
 		>
 			{getGuessNumber()}
 		</td>
-		<td in:fade={{ duration: fadeDuration }} class="w-[150px] max-w-[150px] pl-0 sm:w-[260px] sm:max-w-[260px] sm:pl-8">
+		<td
+			in:fade={{ duration: fadeDuration }}
+			class="w-[150px] max-w-[150px] pl-0 sm:w-[260px] sm:max-w-[260px] sm:pl-8"
+		>
 			<div class="flex items-center">
 				<span class="truncate">{guess.word}</span>
 				{#if guess.wasHinted}
@@ -65,7 +68,7 @@
 		</td>
 	{/key}
 	<td class="px-1 pl-2 font-normal sm:px-4" style="text-align: center;">
-		{#if guess.rank == 1000}
+		{#if guess.similarityScore >= 99.9}
 			<div class="flex justify-center">
 				<svg
 					xmlns="http://www.w3.org/2000/svg"

@@ -1,7 +1,7 @@
 import base64 from 'base-64';
 import utf8 from 'utf8';
 import { START_DAY } from './constants';
-import { secretWordsEncoded } from '../data/secretWords';
+import { secretWordsEncoded } from '$lib/data/secretWords';
 import type { Guess } from '../types';
 
 export function getGameNumber(): number {
@@ -61,9 +61,9 @@ export function wrapWordsInBold(words: string[]) {
 }
 
 function getFirstTopGuess(guesses: Guess[]): Guess | undefined {
-	return guesses
-		.filter((guess) => guess.rank > 0 && guess.rank <= 1000)
-		.sort((a, b) => a.rank - b.rank)[0];
+	const sortedGuesses = [...guesses].sort((a, b) => a.guessNumber - b.guessNumber);
+
+	return sortedGuesses.find((guess) => guess.rank !== 0);
 }
 
 function getSecondToLastGuess(guesses: Guess[]): Guess | undefined {
@@ -103,7 +103,7 @@ export function getClipboardContent(
 	}
 
 	content += `▪️Toiseksi viimeisen arvaukseni samankaltaisuus oli ${formatSimilarity(penultimateGuess?.similarityScore, penultimateGuess?.rank)}.\n`;
-	content += `\nhttps://semanttuli.fly.dev`;
+	content += `\nsemanttuli.fly.dev`;
 
 	return content;
 }

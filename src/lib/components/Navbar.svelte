@@ -23,7 +23,7 @@
 </script>
 
 <header
-	class="mx-auto flex w-full max-w-3xl items-center justify-between px-4 pb-2 pt-4 text-menu-item-light selection:bg-menu-item-light selection:text-white dark:text-menu-item-dark dark:selection:bg-black dark:selection:text-menu-item-light sm:pb-8 sm:pt-6"
+	class="mx-auto flex w-full max-w-3xl items-center justify-between px-4 pb-0 pt-4 text-menu-item-light selection:bg-menu-item-light selection:text-white dark:text-menu-item-dark dark:selection:bg-black dark:selection:text-menu-item-light sm:pb-8 sm:pt-6"
 >
 	<h1 class="font-PurplePurse text-4xl sm:text-5xl">Semanttuli</h1>
 	<nav>

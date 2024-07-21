@@ -6,7 +6,6 @@ export { default as Guesses } from './Guesses.svelte';
 export { default as GuessForm } from './GuessForm.svelte';
 export { default as Icon } from './Icon.svelte';
 export { default as IconButton } from './IconButton.svelte';
-export { default as MobileKeyboard } from './MobileKeyboard.svelte';
 export { default as Modal } from './Modal.svelte';
 export { default as Navbar } from './Navbar.svelte';
 export { default as NotificationBanner } from './NotificationBanner.svelte';

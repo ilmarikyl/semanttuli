@@ -4,7 +4,6 @@
 	import { getClipboardContent } from '$lib/utils/utils';
 	import { decodeB64word } from '$lib/utils/utils';
 	import { statsStore } from '$stores/stats';
-	import { hideKeyboard } from '$stores/keyboard';
 	import type { Guess } from '$lib/types';
 
 	export let winState: string;
@@ -25,10 +24,6 @@
 	}
 
 	function toggleStats() {
-		if (!showStats) {
-			hideKeyboard();
-		}
-
 		showStats = !showStats;
 	}
 
@@ -49,8 +44,8 @@
 </script>
 
 {#if winState === 'won'}
-	<div class="mb-4 rounded-3xl bg-winstate-bg-light p-3 dark:bg-winstate-bg-dark sm:p-6">
-		<div class="space-y-3 text-sm sm:text-base">
+	<div class="mb-1 rounded-3xl bg-winstate-bg-light p-3 dark:bg-winstate-bg-dark sm:mb-4 sm:p-6">
+		<div class="space-y-1 text-sm sm:space-y-3 sm:text-base">
 			<p class="text-base font-semibold sm:text-lg">
 				Löysit salaisen sanan <span
 					class="text-xl font-bold text-highlight-light dark:text-highlight-dark sm:text-2xl"
@@ -82,7 +77,7 @@
 				Voit halutessasi yhä jatkaa sanojen syöttämistä.
 			</p>
 		</div>
-		<div class="mt-4 flex items-center justify-between">
+		<div class="mt-2 flex items-center justify-between sm:mt-4">
 			<button
 				class="rounded-full bg-btn-bg-primary-light px-4 py-2 text-sm text-white transition-colors duration-200 ease-in-out hover:bg-btn-bg-primary-hover-light dark:bg-btn-bg-secondary-dark dark:hover:bg-btn-bg-primary-hover-dark sm:text-base"
 				on:click={displayCopiedText}
@@ -97,13 +92,15 @@
 				{showStats ? 'Piilota statistiikka' : 'Näytä statistiikka'}
 			</button>
 		</div>
-		<div class="mt-2 h-3 text-sm">
-			{#if displayCopied}
-				<span in:fade={{ duration: 250 }} out:fade={{ duration: 250 }} class="ml-3 font-bold">
-					Tulos kopioitu leikepöydälle!
-				</span>
-			{/if}
-		</div>
+		{#if displayCopied}
+			<span
+				in:fade={{ duration: 250 }}
+				out:fade={{ duration: 250 }}
+				class="ml-3 text-xs font-semibold sm:text-sm"
+			>
+				Tulos kopioitu leikepöydälle!
+			</span>
+		{/if}
 		{#if showStats}
 			<div transition:slide={{ duration: 300 }} class="mt-4 rounded-xl p-6 py-0">
 				<h3 class="mb-4 text-center text-lg font-bold sm:text-2xl">Pelistatistiikka</h3>
@@ -124,14 +121,14 @@
 {/if}
 
 {#if winState === 'gaveUp'}
-	<div class="mb-4 rounded-3xl bg-red-100 p-6 dark:bg-red-950">
+	<div class="mb-1 rounded-3xl bg-red-100 p-6 dark:bg-red-950 sm:mb-4 sm:p-6">
 		<div class="relative overflow-hidden">
 			<h2 class="mb-4 text-lg font-bold sm:text-2xl">
 				<span class="mr-2 text-3xl sm:text-4xl">🏳️</span> Luovutit
 				<span class="ml-2 text-3xl sm:text-4xl">🥲</span>
 			</h2>
 		</div>
-		<div class="space-y-3 text-sm sm:text-base">
+		<div class="space-y-1 text-sm sm:space-y-3 sm:text-base">
 			<p>
 				<span class="mr-2">❌</span> Salainen sana olisi ollut:
 				<span class="mx-1 font-bold text-red-800 dark:text-red-300"
@@ -174,17 +171,15 @@
 				{showStats ? 'Piilota statistiikka' : 'Näytä statistiikka'}
 			</button>
 		</div>
-		<div class="mt-2 h-3 text-sm">
-			{#if displayCopied}
-				<span
-					in:fade={{ duration: 250 }}
-					out:fade={{ duration: 250 }}
-					class="ml-3 font-bold text-red-600 dark:text-red-400"
-				>
-					Tulos kopioitu leikepöydälle!
-				</span>
-			{/if}
-		</div>
+		{#if displayCopied}
+			<span
+				in:fade={{ duration: 250 }}
+				out:fade={{ duration: 250 }}
+				class="ml-3 text-xs font-semibold sm:text-sm"
+			>
+				Tulos kopioitu leikepöydälle!
+			</span>
+		{/if}
 		{#if showStats}
 			<div
 				transition:slide={{ duration: 300 }}

@@ -88,7 +88,6 @@ export async function getNearby1k(wordB64: string) {
 	return nearbyCollection
 		.find({ word }, { projection: { neighbor: 1, percentile: 1, similarity: 1 } })
 		.sort({ percentile: -1 })
-		.skip(1)
 		.limit(1000)
 		.toArray();
 }

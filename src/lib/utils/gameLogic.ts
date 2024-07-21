@@ -113,12 +113,11 @@ export async function processGuess(
 		let rank: number;
 
 		if (data.percentile) {
-			console.log('Get model - API Response:', data);
 			similarityScore = data.similarity * 100;
 			rank = data.percentile;
 		} else {
 			const guessVec = data.vec;
-			similarityScore = getCosSim(guessVec, secretWordVec);
+			similarityScore = getCosSim(guessVec, secretWordVec) * 100;
 			rank = 0;
 		}
 
