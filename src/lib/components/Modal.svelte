@@ -61,6 +61,38 @@
 			}
 		});
 	}
+
+	let showScrollIndicator = true;
+
+	function handleScroll(event: Event) {
+		const target = event.target as HTMLElement;
+
+		if (target.scrollTop > 20) {
+			showScrollIndicator = false;
+		}
+	}
+
+	onMount(() => {
+		const isDesktop = window.innerWidth >= 768;
+		showScrollIndicator = !isDesktop;
+
+		const scrollableArea = document.querySelector('.scrollable-content');
+		if (scrollableArea) {
+			scrollableArea.addEventListener('scroll', handleScroll);
+		}
+
+		// Hide arrow after 7 seconds
+		const timer = setTimeout(() => {
+			showScrollIndicator = false;
+		}, 7000);
+
+		return () => {
+			if (scrollableArea) {
+				scrollableArea.removeEventListener('scroll', handleScroll);
+			}
+			clearTimeout(timer);
+		};
+	});
 </script>
 
 {#if visible}
@@ -105,8 +137,8 @@
 						> — Selvitä salainen sana
 					</h2>
 
-					<div class="max-h-[75vh] overflow-y-auto px-3 sm:px-4">
-						<h3 class="mb-2 text-base sm:text-lg font-semibold">Ohjeet pelaamiseen</h3>
+					<div class="scrollable-content relative max-h-[75vh] overflow-y-auto px-3 sm:px-4">
+						<h3 class="mb-2 text-base font-semibold sm:text-lg">Ohjeet pelaamiseen</h3>
 						<div class="flex flex-col gap-4">
 							{#each gameDescription as paragraph}
 								<p class="text-sm sm:text-base">{@html paragraph}</p>
@@ -118,6 +150,22 @@
 
 						<Accordion items={processedFaqItems} />
 					</div>
+					{#if showScrollIndicator}
+						<div class="scroll-indicator-arrow">
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								viewBox="0 0 24 24"
+								fill="currentColor"
+								class="h-8 w-8 text-highlight-dark dark:text-highlight-light"
+							>
+								<path
+									fill-rule="evenodd"
+									d="M12 2.25a.75.75 0 01.75.75v16.19l6.22-6.22a.75.75 0 111.06 1.06l-7.5 7.5a.75.75 0 01-1.06 0l-7.5-7.5a.75.75 0 111.06-1.06l6.22 6.22V3a.75.75 0 01.75-.75z"
+									clip-rule="evenodd"
+								/>
+							</svg>
+						</div>
+					{/if}
 
 					<div class="px-3 sm:px-4">
 						<hr />
@@ -163,5 +211,39 @@
 		padding: 0.5rem;
 		background-color: white;
 		border-radius: 50%;
+	}
+
+	.scroll-indicator-arrow {
+		position: absolute;
+		bottom: 10px;
+		left: 50%;
+		transform: translateX(-50%);
+		color: rgba(0, 0, 0, 0.5);
+		animation: bounce 2s infinite;
+	}
+
+	@keyframes bounce {
+		0%,
+		20%,
+		50%,
+		80%,
+		100% {
+			transform: translateX(-50%) translateY(0);
+		}
+		40% {
+			transform: translateX(-50%) translateY(-10px);
+		}
+		60% {
+			transform: translateX(-50%) translateY(-5px);
+		}
+	}
+
+	.modal-wrapper {
+		position: relative;
+		overflow: hidden;
+	}
+
+	.scrollable-content {
+		position: relative;
 	}
 </style>
