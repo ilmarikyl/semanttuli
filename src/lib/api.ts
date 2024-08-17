@@ -69,14 +69,12 @@ export async function getSimilarity(wordB64: string) {
 	};
 }
 
-// skip first one
 export async function getNearby10(wordB64: string) {
 	const nearbyCollection = await getNearbyCollection();
 	const word = decodeB64word(wordB64);
 	return nearbyCollection
 		.find({ word }, { projection: { neighbor: 1 } })
 		.sort({ percentile: -1 })
-		.skip(1)
 		.limit(10)
 		.toArray();
 }
