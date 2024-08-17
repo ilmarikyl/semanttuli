@@ -6,10 +6,10 @@ export const gameDescription = [
   "<b>haukkua</b>" ovat hyvin samankaltaisia, eikä kirjoitusasulla siis välttämättä ole mitään
   tekemistä semanttisen samankaltaisuuden kanssa.`,
 
-	`Kaikki salaiset sanat ovat perusmuodossa, alkavat pienellä kirjaimella ja ne koostuvat vain yhdestä
-  sanasta. Salaiset sanat voivat olla substantiiveja, adjektiiveja tai verbejä, mutta voit
-  syöttää arvauksissasi minkä tahansa sanaluokan sanoja. Kun arvauksesi on tuhannen lähimmän sanan joukossa,
-  taulukon "<b>Joko polttaa?</b>"-sarakkeessa oleva palkki kertoo, kuinka lähellä arvaus tarkalleen on.`,
+	`Salaiset sanat ovat perusmuodossa, alkavat pienellä kirjaimella, ja ne voivat olla yksittäisiä sanoja
+  tai yhdyssanoja. Salaiset sanat voivat olla substantiiveja, adjektiiveja tai verbejä, mutta voit syöttää
+  arvauksissasi minkä tahansa sanaluokan sanoja. Kun arvauksesi on tuhannen lähimmän sanan joukossa, taulukon
+  <b>'Joko polttaa?'</b>-sarakkeessa oleva palkki kertoo, kuinka lähellä arvaus tarkalleen on.`,
 
 	`Tehtävä on vaikea ja tarvitset luultavasti kymmeniä yrityksiä löytääksesi salaisen sanan. Jos jäät jumiin, voit myös
   käyttää taulukon alta löytyvää vinkkipainiketta. Voit käyttää enintään 15 vinkkiä yhden pelin aikana.
@@ -40,10 +40,11 @@ export const faqItems = [
       Semanttuli käyttää <a target="_blank" rel="noopener noreferrer"
       href="https://turkunlp.org/">TurkuNLP</a>-tutkimusryhmän luomia sanavektoreita.
       Word2vec-malli on nimeltään <a class="font-bold" target="_blank" rel="noopener noreferrer"
-      href="http://dl.turkunlp.org/finnish-embeddings/"><tt>finnish_s24_skgram_lemmas.bin</tt></a>.
-      Sanavektorit ovat 200-ulotteisia ja ne on koulutettu Suomi24-verkkoyhteisöstä peräisin olevalla
-      datalla. Sanat on lemmatisoitu (eli muutettu ns. perusmuotoon), minkä takia esimerkiksi sanalle
-      "nukun" ei löydy sanavektoria, eikä se täten voi olla salainen sana.
+      href="http://dl.turkunlp.org/finnish-embeddings/"><tt>finnish_4B_parsebank_skgram.bin</tt></a>.
+      Sanavektorit ovat 200-ulotteisia ja ne on lemmatisoitu (eli muutettu ns. perusmuotoon), minkä takia esimerkiksi sanalle
+      "nukun" ei löydy sanavektoria, eikä se täten voi olla salainen sana. Peli tunnistaa myös vain Kotuksen
+      <a class="font-bold" target="_blank" rel="noopener noreferrer"
+      href="https://www.kotus.fi/aineistot/sana-aineistot/nykysuomen_sanalista">nykysuomen sanalistasta</a> löytyviä sanoja.
     `
 	},
 	{
@@ -55,9 +56,8 @@ export const faqItems = [
 	{
 		title: 'Miten salaiset sanat on valittu?',
 		content: `
-      Otin 5000 yleisintä sanavektorien harjoitusdatassa esiintynyttä sanaa, sekoitin ne ja poistin
-      kaikki, jotka koostuivat enemmän kuin yhdestä sanasta tai kuuluivat väärään sanaluokkaan. Myös
-      joitakin kyseenalaisia sanoja on siivottu pois.
+      Otin 5000 yleisintä sanavektorien harjoitusdatassa esiintynyttä sanaa, sekoitin ne ja poistin pois kaikki väärään
+      sanaluokkaan kuuluvat. Myös joitakin kyseenalaisia sanoja on siivottu pois.
     `
 	},
 	{
