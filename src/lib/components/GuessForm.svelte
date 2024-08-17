@@ -35,15 +35,17 @@
 		// 	setSortOrder('similarityScore');
 		// }
 
+		const trimmedLowerCaseGuess = guess.trim().toLowerCase();
+
 		// If guess is already in the guess array, just update the latest guess
-		const isAlreadyGuessed = guesses.some((g) => g.word === guess.trim().toLowerCase());
+		const isAlreadyGuessed = guesses.some((g) => g.word === trimmedLowerCaseGuess);
 
 		if (isAlreadyGuessed) {
-			const guessData = guesses.find((g) => g.word === guess);
+			const guessData = guesses.find((g) => g.word === trimmedLowerCaseGuess);
 			if (guessData) {
 				updateGuesses({
 					guessNumber: guessData.guessNumber,
-					word: guess,
+					word: trimmedLowerCaseGuess,
 					similarityScore: guessData.similarityScore,
 					rank: guessData.rank,
 					wasHinted: guessData.wasHinted,
@@ -60,12 +62,7 @@
 			return;
 		}
 
-		const result = await processGuess(
-			guess.trim().toLowerCase(),
-			secretWord,
-			secretWordVec,
-			winState
-		);
+		const result = await processGuess(trimmedLowerCaseGuess, secretWord, secretWordVec, winState);
 
 		if (result.error) {
 			errorMessage = result.error;
