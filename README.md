@@ -8,7 +8,7 @@
 [![Docker](https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com/)
 [![Fly.io](https://img.shields.io/badge/Fly.io-8E75FF?style=for-the-badge&logo=flyio&logoColor=white)](https://fly.io/)
 
-Semanttuli is the Finnish version of the [https://semantle.com/](Semantle) word guessing game.
+Semanttuli is the Finnish version of the [Semantle](https://semantle.com/) word guessing game.
 
 🌐 **Live Application**: [https://semanttuli.fly.dev](https://semanttuli.fly.dev)
 
