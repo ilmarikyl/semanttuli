@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { slide } from 'svelte/transition';
+	import { slide, fly } from 'svelte/transition';
 	import { gameState, toggleGameInfoCollapsed } from '$stores/gameState';
 	import { Spinner } from '$components';
 	import type { SimilarityData } from '$lib/types';
@@ -9,6 +9,7 @@
 	$: isGameInfoCollapsed = $gameState.isGameInfoCollapsed;
 
 	const similarityKeys: (keyof SimilarityData)[] = ['top', 'top10', 'top1000'];
+
 	const similarityLabels = {
 		top: 'Lähin',
 		top10: '10. lähin',
@@ -29,12 +30,22 @@
 
 		{#if $gameState.winState === 'playing'}
 			<button
-				class="mb-2 flex w-auto items-center justify-between p-2"
+				class="mb-2 flex w-auto items-center justify-between p-2 transition-transform duration-300 ease-in-out"
 				on:click={() => toggleGameInfoCollapsed(!isGameInfoCollapsed)}
 			>
-				<span class="text-xl text-[#7F7C82] sm:text-2xl">
-					{isGameInfoCollapsed ? '▼' : '▲'}
-				</span>
+				<svg
+					class="h-8 w-8 transform text-[#7F7C82] transition-transform duration-300 ease-in-out"
+					class:rotate-180={!isGameInfoCollapsed}
+					xmlns="http://www.w3.org/2000/svg"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="2"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+				>
+					<polyline points="6 9 12 15 18 9"></polyline>
+				</svg>
 			</button>
 		{/if}
 	</div>
