@@ -48,3 +48,8 @@ export interface ModelResult {
 	neighbor?: string;
 	vec?: string[];
 }
+
+export interface RankThreshold {
+	threshold: number;
+	increment: number;
+}

@@ -2,7 +2,7 @@ import base64 from 'base-64';
 import utf8 from 'utf8';
 import { START_DAY } from './constants';
 import { secretWordsEncoded } from '$lib/data/secretWords';
-import type { Guess } from '../types';
+import type { Guess, RankThreshold } from '../types';
 
 export function getGameNumber(): number {
 	const now = Date.now() + 10800000; // add 10800000 for UTC+3
@@ -21,21 +21,26 @@ export function decodeB64word(b64Secret: string): string {
 }
 
 export function determineHintRank(highestRank: number): number {
-	if (highestRank >= 990) {
-		return highestRank + 1;
-	} else if (highestRank >= 984) {
-		return highestRank + 5;
-	} else if (highestRank >= 965) {
-		return highestRank + 15;
-	} else if (highestRank >= 950) {
-		return highestRank + 25;
-	} else if (highestRank >= 850) {
-		return highestRank + 50;
-	} else if (highestRank >= 1) {
-		return highestRank + 100;
-	} else {
-		return 1;
+	const rankThresholds: RankThreshold[] = [
+		{ threshold: 990, increment: 1 },
+		{ threshold: 984, increment: 5 },
+		{ threshold: 974, increment: 10 },
+		{ threshold: 965, increment: 15 },
+		{ threshold: 950, increment: 25 },
+		{ threshold: 900, increment: 35 },
+		{ threshold: 850, increment: 50 },
+		{ threshold: 1, increment: 100 }
+	];
+
+	if (highestRank < 1) return 1;
+
+	for (const { threshold, increment } of rankThresholds) {
+		if (highestRank >= threshold) {
+			return highestRank + increment;
+		}
 	}
+
+	return 1;
 }
 
 export function getSimilarityColor(similarityScore: number, darkMode: boolean): string {
@@ -82,7 +87,6 @@ export function getClipboardContent(
 	guesses: Guess[],
 	hintsUsed: number
 ): string {
-
 	if (winState === 'gaveUp') {
 		return `🚫 Semanttuli #${gameNumber} luovutettu ${guesses.length} arvauksen ja ${hintsUsed} vinkin jälkeen | semanttuli.fly.dev`;
 	}
