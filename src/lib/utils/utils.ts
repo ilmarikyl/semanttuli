@@ -29,7 +29,7 @@ export function determineHintRank(highestRank: number): number {
 		{ threshold: 950, increment: 25 },
 		{ threshold: 900, increment: 35 },
 		{ threshold: 850, increment: 50 },
-		{ threshold: 1, increment: 100 }
+		{ threshold: 1, increment: 100 },
 	];
 
 	if (highestRank < 1) return 1;
@@ -81,12 +81,7 @@ function formatSimilarity(score: number | undefined, rank: number | undefined): 
 	return rank ? `${formattedScore} (${rank}/1000)` : formattedScore;
 }
 
-export function getClipboardContent(
-	winState: string,
-	gameNumber: number,
-	guesses: Guess[],
-	hintsUsed: number
-): string {
+export function getClipboardContent(winState: string, gameNumber: number, guesses: Guess[], hintsUsed: number): string {
 	if (winState === 'gaveUp') {
 		return `🚫 Semanttuli #${gameNumber} luovutettu ${guesses.length} arvauksen ja ${hintsUsed} vinkin jälkeen | semanttuli.fly.dev`;
 	}

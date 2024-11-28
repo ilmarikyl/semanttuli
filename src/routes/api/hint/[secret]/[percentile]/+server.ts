@@ -1,7 +1,6 @@
 // src/routes/api/hint/[secret]/[percentile].ts
-import type { RequestHandler } from '@sveltejs/kit';
+import { type RequestHandler, json } from '@sveltejs/kit';
 import { getHint } from '$lib/api';
-import { json } from '@sveltejs/kit';
 
 export const GET: RequestHandler = async ({ params }) => {
 	const { secret, percentile } = params;

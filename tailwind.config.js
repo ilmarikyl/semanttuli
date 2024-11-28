@@ -11,30 +11,30 @@ export default {
 				PurplePurse: ['Purple Purse', 'cursive'],
 				Rubik: ['Rubik', 'sans-serif'],
 				Nunito: ['Nunito', 'sans-serif'],
-				Concert: ['Concert One', 'cursive']
-			}
+				Concert: ['Concert One', 'cursive'],
+			},
 		},
 		colors: {
-			light: {
-				purple: {
+			'light': {
+				'purple': {
 					100: '#E1CCEC',
 					200: '#C9B6E4',
 					300: '#BE9FE1',
-					400: '#B38DD9'
+					400: '#B38DD9',
 				},
-				link: '#2563EB',
-				'link-hover': '#1D4ED8'
+				'link': '#2563EB',
+				'link-hover': '#1D4ED8',
 			},
-			dark: {
+			'dark': {
 				purple: {
 					100: '#201029',
 					200: '#351B44',
 					300: '#201029',
-					400: '#351B44'
+					400: '#351B44',
 				},
-				link: '#2563EB'
+				link: '#2563EB',
 			},
-			
+
 			'text-light': '#555555',
 			'text-dark': '#FFFFFF',
 
@@ -48,7 +48,6 @@ export default {
 
 			'menu-item-light': '#BE9FE1',
 			'menu-item-dark': '#FFFFFF',
-
 
 			'guess-table-header-bg-light': '#E1CCEC',
 			'guess-table-header-bg-dark': '#201029',
@@ -89,22 +88,22 @@ export default {
 			'winstate-stats-bg-light': '#C9B6E4',
 			'winstate-stats-bg-dark': '#201029',
 
-			transparent: 'transparent',
-			current: 'currentColor',
-			black: colors.black,
-			white: colors.white,
-			green: colors.green,
-			gray: colors.neutral,
-			indigo: colors.indigo,
-			red: colors.rose,
-			yellow: colors.amber,
-			blue: colors.blue,
-			purple: colors.purple
-		}
+			'transparent': 'transparent',
+			'current': 'currentColor',
+			'black': colors.black,
+			'white': colors.white,
+			'green': colors.green,
+			'gray': colors.neutral,
+			'indigo': colors.indigo,
+			'red': colors.rose,
+			'yellow': colors.amber,
+			'blue': colors.blue,
+			'purple': colors.purple,
+		},
 	},
 	variants: {
 		extend: {
-			typography: ['dark']
-		}
-	}
+			typography: ['dark'],
+		},
+	},
 };

@@ -17,7 +17,7 @@ export const gameState: Writable<GameState> = writable({
 	sortOrder: 'desc',
 	yesterdayNearby10: [],
 	yesterdayWord: '',
-	winState: 'playing'
+	winState: 'playing',
 });
 
 export function updateGuesses(guessData: {
@@ -35,21 +35,19 @@ export function updateGuesses(guessData: {
 		similarityScore: guessData.similarityScore,
 		rank: guessData.rank,
 		wasHinted: guessData.wasHinted,
-		isNew: guessData.isNew
+		isNew: guessData.isNew,
 	};
 
 	gameState.update((state) => {
 		let updatedState = { ...state, latestGuess: newGuess };
 
 		if (guessData.addToGuesses) {
-			const guesses = [...state.guesses, newGuess].sort(
-				(a, b) => b.similarityScore - a.similarityScore
-			);
+			const guesses = [...state.guesses, newGuess].sort((a, b) => b.similarityScore - a.similarityScore);
 			updatedState = {
 				...updatedState,
 				guesses,
 				sortBy: 'similarityScore',
-				sortOrder: 'desc'
+				sortOrder: 'desc',
 			};
 		}
 
@@ -74,7 +72,7 @@ export function updateYesterdayData(nearby10: string[], word: string) {
 		const newState = {
 			...state,
 			yesterdayNearby10: nearby10,
-			yesterdayWord: word
+			yesterdayWord: word,
 		};
 		return newState;
 	});
@@ -84,7 +82,7 @@ export function toggleGameInfoCollapsed(collapseState?: boolean) {
 	if (collapseState !== undefined) {
 		gameState.update((state) => ({
 			...state,
-			isGameInfoCollapsed: collapseState
+			isGameInfoCollapsed: collapseState,
 		}));
 
 		saveIsGameInfoCollapsed(collapseState);
@@ -171,7 +169,7 @@ export const loadGameState = (actualGameNumber: number) => {
 				gameNumber: actualGameNumber,
 				guesses: [],
 				latestGuess: null,
-				winState: 'playing'
+				winState: 'playing',
 			}));
 		} else {
 			// If gameNumber matches, proceed with saving the loaded values to the store
@@ -181,7 +179,7 @@ export const loadGameState = (actualGameNumber: number) => {
 				guesses: parsedGuesses || state.guesses,
 				latestGuess: parsedLatestGuess || state.latestGuess,
 				winState: parsedWinState || state.winState,
-				isGameInfoCollapsed: savedIsGameInfoCollapsed
+				isGameInfoCollapsed: savedIsGameInfoCollapsed,
 			}));
 		}
 
@@ -201,10 +199,7 @@ export const loadGameState = (actualGameNumber: number) => {
 				if (parsedStats.wins == null) parsedStats.wins = 0;
 
 				const requiredTotalPlayDays = parsedStats.abandons + parsedStats.giveUps + parsedStats.wins;
-				if (
-					parsedStats.totalPlayDays == null ||
-					parsedStats.totalPlayDays < requiredTotalPlayDays
-				) {
+				if (parsedStats.totalPlayDays == null || parsedStats.totalPlayDays < requiredTotalPlayDays) {
 					parsedStats.totalPlayDays = requiredTotalPlayDays;
 				}
 			} catch (e) {

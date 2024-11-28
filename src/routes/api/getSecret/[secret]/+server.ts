@@ -1,9 +1,8 @@
 // src/routes/api/getSecret/[secret].ts
-import type { RequestHandler } from '@sveltejs/kit';
+import { type RequestHandler, json } from '@sveltejs/kit';
 // import { getSecret } from '$lib/api';
 import { getWordVector } from '$lib/api';
 import { decodeB64word } from '$lib/utils/utils';
-import { json } from '@sveltejs/kit';
 
 export const GET: RequestHandler = async ({ params }) => {
 	const { secret } = params;

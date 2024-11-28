@@ -1,6 +1,5 @@
-import type { RequestHandler } from '@sveltejs/kit';
+import { type RequestHandler, json } from '@sveltejs/kit';
 import { getNearby10 } from '$lib/api';
-import { json } from '@sveltejs/kit';
 
 export const GET: RequestHandler = async ({ params }) => {
 	const { wordB64 } = params;
@@ -14,7 +13,7 @@ export const GET: RequestHandler = async ({ params }) => {
 		if (result) {
 			return json(
 				result.map((obj) => obj.neighbor),
-				{ status: 200 }
+				{ status: 200 },
 			);
 		} else {
 			return json({ error: 'Nearby words not found' }, { status: 404 });

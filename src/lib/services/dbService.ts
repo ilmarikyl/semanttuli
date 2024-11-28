@@ -1,6 +1,5 @@
-import { MongoClient, Db, Collection } from 'mongodb';
+import { type Document, type WithId, MongoClient, Db, Collection } from 'mongodb';
 import { config } from 'dotenv';
-import type { Document, WithId } from 'mongodb';
 
 config();
 
@@ -43,9 +42,7 @@ async function getCollection<T extends Document>(name: string): Promise<Collecti
 }
 
 // Export collection getters
-export async function getW2VCollection(): Promise<
-	Collection<WithId<{ word: string; vec: Buffer }>>
-> {
+export async function getW2VCollection(): Promise<Collection<WithId<{ word: string; vec: Buffer }>>> {
 	return getCollection('word2vec');
 }
 

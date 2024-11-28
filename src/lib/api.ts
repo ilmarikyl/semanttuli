@@ -1,9 +1,5 @@
 // src/lib/api.ts
-import {
-	getW2VCollection,
-	getNearbyCollection,
-	getSimilarityRangeCollection
-} from './services/dbService';
+import { getW2VCollection, getNearbyCollection, getSimilarityRangeCollection } from './services/dbService';
 import type { ModelResult } from './types';
 import { decodeB64word } from './utils/utils';
 
@@ -65,7 +61,7 @@ export async function getSimilarity(wordB64: string) {
 	return {
 		top: result.top,
 		top10: result.top10,
-		top1000: result.rest
+		top1000: result.rest,
 	};
 }
 

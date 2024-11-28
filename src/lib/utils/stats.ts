@@ -12,6 +12,6 @@ export function createInitialStats(gameNumber: number): GameStats {
 		totalHints: 0,
 		totalPlayDays: 1, // Start with 1 as this is the first play
 		wins: 0,
-		winStreak: 0
+		winStreak: 0,
 	};
 }

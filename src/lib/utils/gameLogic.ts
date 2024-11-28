@@ -1,10 +1,15 @@
 // import { gameState } from '$stores/gameState';
 
-import { gameState, updateGuesses, updateWinState } from '$stores/gameState';
+import {
+	gameState,
+	updateGuesses,
+	updateWinState,
+	updateSimilarityData,
+	updateSecretWordVec,
+	updateYesterdayData,
+} from '$stores/gameState';
 import { get } from 'svelte/store';
-import { updateSimilarityData, updateSecretWordVec, updateYesterdayData } from '$stores/gameState';
-import { getSecretWord, decodeB64word } from '$lib/utils/utils';
-import { determineHintRank } from '$lib/utils/utils';
+import { determineHintRank, getSecretWord, decodeB64word } from '$lib/utils/utils';
 import { updateStat } from '$stores/stats';
 import { getCosSim } from './math';
 
@@ -17,7 +22,7 @@ export async function fetchInitialGameData(secretWord: string, gameNumber: numbe
 			updateSimilarityData({
 				top: top * 100,
 				top10: top10 * 100,
-				top1000: top1000 * 100
+				top1000: top1000 * 100,
 			});
 		}
 
@@ -46,9 +51,7 @@ export async function fetchInitialGameData(secretWord: string, gameNumber: numbe
 export async function getHintWord(secretWord: string) {
 	const state = get(gameState);
 	const highestRank =
-		Math.max(
-			...state.guesses.map((guess) => guess.rank).filter((rank) => typeof rank === 'number')
-		) || 0;
+		Math.max(...state.guesses.map((guess) => guess.rank).filter((rank) => typeof rank === 'number')) || 0;
 	const hintRank = determineHintRank(highestRank);
 	const numOfGuesses = state.guesses.length;
 
@@ -63,7 +66,7 @@ export async function getHintWord(secretWord: string) {
 				word: hint.neighbor,
 				similarityScore,
 				rank: hintRank,
-				wasHinted: true
+				wasHinted: true,
 			};
 
 			updateGuesses({
@@ -73,7 +76,7 @@ export async function getHintWord(secretWord: string) {
 				rank: hintRank,
 				wasHinted: true,
 				isNew: true,
-				addToGuesses: true
+				addToGuesses: true,
 			});
 			updateStat('totalHints', 'increment', 1);
 			updateStat('totalGuesses', 'increment', 1);
@@ -89,12 +92,7 @@ export async function getHintWord(secretWord: string) {
 	}
 }
 
-export async function processGuess(
-	guess: string,
-	secretWord: string,
-	secretWordVec: number[],
-	winState: string
-) {
+export async function processGuess(guess: string, secretWord: string, secretWordVec: number[], winState: string) {
 	try {
 		const url = `/api/model/${secretWord}/${guess}`;
 		const response = await fetch(url);
@@ -130,7 +128,7 @@ export async function processGuess(
 			rank,
 			wasHinted: false,
 			isNew: true,
-			addToGuesses: winState === 'playing' || isCorrectGuess
+			addToGuesses: winState === 'playing' || isCorrectGuess,
 		});
 
 		if (winState === 'playing') {

@@ -16,12 +16,7 @@ export function saveIsGameInfoCollapsed(isCollapsed: boolean): void {
 	}
 }
 
-export function saveGame(
-	winState: WinState,
-	guesses: Guess[],
-	latestGuess: Guess | undefined,
-	secretWord: string
-) {
+export function saveGame(winState: WinState, guesses: Guess[], latestGuess: Guess | undefined, secretWord: string) {
 	const localStorage = getLocalStorage();
 	if (!localStorage) return;
 

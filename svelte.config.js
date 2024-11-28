@@ -12,9 +12,9 @@ const config = {
 		adapter: adapter(),
 		alias: {
 			$stores: 'src/stores',
-			$components: 'src/lib/components'
-		}
-	}
+			$components: 'src/lib/components',
+		},
+	},
 };
 
 export default config;

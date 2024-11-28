@@ -15,11 +15,7 @@ export function updateStatsStore(newStats: GameStats) {
 	}
 }
 
-export function updateStat(
-	stat: keyof GameStats,
-	value: number | 'increment' = 'increment',
-	incrementBy: number = 1
-) {
+export function updateStat(stat: keyof GameStats, value: number | 'increment' = 'increment', incrementBy: number = 1) {
 	statsStore.update((stats) => {
 		if (value === 'increment') {
 			stats[stat] += incrementBy;

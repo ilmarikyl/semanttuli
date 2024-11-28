@@ -17,7 +17,7 @@ export const gameDescription = [
 
 	`Semanttuli pohjautuu <a target="_blank" rel="noopener noreferrer" href="https://semantle.com/">Semantleen</a>,
    alkuperäiseen englanninkieliseen versioon, jonka on luonut
-   <a target="_blank" rel="noopener noreferrer" href="https://games.novalis.org/">David Turner</a>.`
+   <a target="_blank" rel="noopener noreferrer" href="https://games.novalis.org/">David Turner</a>.`,
 ];
 
 export const faqItems = [
@@ -32,7 +32,7 @@ export const faqItems = [
       samankaltaisuus saadaan laskemalla niiden sanavektorien välinen kosinisamankaltaisuus (engl. <a
       target="_blank" rel="noopener noreferrer" href="https://en.wikipedia.org/wiki/Cosine_similarity">
       cosine similarity</a>).
-    `
+    `,
 	},
 	{
 		title: 'Millaisella datalla sanavektorit on luotu?',
@@ -45,20 +45,20 @@ export const faqItems = [
       "nukun" ei löydy sanavektoria, eikä se täten voi olla salainen sana. Peli tunnistaa myös vain Kotuksen
       <a class="font-bold" target="_blank" rel="noopener noreferrer"
       href="https://www.kotus.fi/aineistot/sana-aineistot/nykysuomen_sanalista">nykysuomen sanalistasta</a> löytyviä sanoja.
-    `
+    `,
 	},
 	{
 		title: 'Mikä oli eilisen sana?',
 		content: `
       Eilisen sana oli "<YESTERDAY_WORD>". Sitä lähimpänä olivat <YESTERDAY_NEARBY_10>.
-    `
+    `,
 	},
 	{
 		title: 'Miten salaiset sanat on valittu?',
 		content: `
       Otin 5000 yleisintä sanavektorien harjoitusdatassa esiintynyttä sanaa, sekoitin ne ja poistin pois kaikki väärään
       sanaluokkaan kuuluvat. Myös joitakin kyseenalaisia sanoja on siivottu pois.
-    `
+    `,
 	},
 	{
 		title: 'Voinko järjestää arvaukseni eri tavalla?',
@@ -67,14 +67,14 @@ export const faqItems = [
       järjestyksen, missä olet syöttänyt ne. Klikkaamalla sitä uudestaan saat käänteisen järjestyksen.
       "Arvaus"-sanaa klikkaamalla saat arvaukset aakkosjärjestykseen. Uuden arvauksen syöttäessäsi
       arvaukset järjestetään selkeyden vuoksi taas samankaltaisuuden mukaan.
-    `
+    `,
 	},
 	{
 		title: 'Voinko pelata enemmän kuin yhden pelin päivässä tai vanhoja pelejä?',
 		content: `
       Et. Yhden päivittäisen pelin rajoitus tekee pelaamisesta yhteisöllisempää, sillä kaikki ratkovat samaa sanaa.
       Tämä myös ehkäisee kyllästymistä ja saa pelaajat panostamaan enemmän ainoaan päivittäiseen yritykseensä.
-    `
+    `,
 	},
 	{
 		title: 'Voinko pelata muilla kielillä?',
@@ -93,13 +93,13 @@ export const faqItems = [
       href="https://kcl.somecrap.ru/semantle.today/">venäjäksi</a>, <a target="_blank"
       rel="noopener noreferrer" href="https://semantle.be/">hollanniksi</a> ja <a target="_blank"
       rel="noopener noreferrer" href="https://semantle-ko.newsjel.ly/">koreaksi</a>.
-    `
+    `,
 	},
 	{
 		title: 'Lähdekoodi?',
 		content: `
       <a target="_blank" rel="noopener noreferrer"
       href="https://github.com/ilmarikyl/semanttuli">Täällä</a>.
-    `
-	}
+    `,
+	},
 ];

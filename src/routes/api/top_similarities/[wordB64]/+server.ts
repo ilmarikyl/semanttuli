@@ -1,6 +1,5 @@
-import type { RequestHandler } from '@sveltejs/kit';
+import { type RequestHandler, json } from '@sveltejs/kit';
 import { getSimilarity } from '$lib/api';
-import { json } from '@sveltejs/kit';
 
 export const GET: RequestHandler = async ({ params }) => {
 	const { wordB64 } = params;
