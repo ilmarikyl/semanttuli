@@ -1,48 +1,55 @@
-<!-- src/lib/Navbar.svelte -->
 <script lang="ts">
-	import { onMount } from 'svelte';
-	import { theme, isDarkMode } from '$stores/theme';
-	import { IconButton, Modal } from '$components';
-	import { openModal } from '$stores/infoModal';
+  import { onMount } from "svelte";
+  import { theme, isDarkMode } from "$stores/theme";
+  import { IconButton, Modal } from "$components";
+  import { openModal } from "$stores/infoModal";
+  import { _ } from "svelte-i18n";
 
-	const toggleTheme = () => {
-		theme.update((currentTheme) => (currentTheme === 'dark' ? 'light' : 'dark'));
-	};
+  const toggleTheme = () => {
+    theme.update((currentTheme) => (currentTheme === "dark" ? "light" : "dark"));
+  };
 
-	let themeLoaded = false;
-	let currentTheme: boolean;
+  let themeLoaded = false;
+  let currentTheme: boolean;
 
-	onMount(() => {
-		const unsubscribe = isDarkMode.subscribe((value) => {
-			currentTheme = value;
-			themeLoaded = true;
-		});
+  onMount(() => {
+    const unsubscribe = isDarkMode.subscribe((value) => {
+      currentTheme = value;
+      themeLoaded = true;
+    });
 
-		return unsubscribe;
-	});
+    return unsubscribe;
+  });
 </script>
 
 <header
-	class="mx-auto flex w-full max-w-3xl items-center justify-between px-4 pb-0 pt-4 text-menu-item-light selection:bg-menu-item-light selection:text-white dark:text-menu-item-dark dark:selection:bg-black dark:selection:text-menu-item-light sm:pb-8 sm:pt-6"
+  class="mx-auto flex w-full max-w-3xl items-center justify-between px-4 pb-0 pt-4 text-menu-item-light selection:bg-menu-item-light selection:text-white dark:text-menu-item-dark dark:selection:bg-black dark:selection:text-menu-item-light sm:pb-8 sm:pt-6"
 >
-	<h1 class="font-PurplePurse text-4xl sm:text-5xl">Semanttuli</h1>
-	<nav>
-		<div class="flex items-center gap-8 sm:gap-10">
-			<IconButton iconName="info" width="32px" height="32px" clickHandler={openModal} />
+  <h1 class="font-PurplePurse text-4xl sm:text-5xl">{$_("navbar.title")}</h1>
+  <nav>
+    <div class="flex items-center gap-8 sm:gap-10">
+      <IconButton
+        iconName="info"
+        width="32px"
+        height="32px"
+        clickHandler={openModal}
+        ariaLabel={$_("navbar.openInfo")}
+      />
 
-			{#if themeLoaded}
-				<IconButton
-					iconName={currentTheme ? 'sun' : 'moon'}
-					buttonClass="bg-transparent p-0"
-					iconClass="text-[#7F7C82] hover:text-gray-400 dark:text-yellow-400 dark:hover:text-yellow-500 transition-colors duration-250 ease-in-out"
-					width="32px"
-					height="32px"
-					clickHandler={toggleTheme}
-				/>
-			{:else}
-				<div class="w-[32px] h-[32px]"></div>
-			{/if}
-		</div>
-	</nav>
+      {#if themeLoaded}
+        <IconButton
+          iconName={currentTheme ? "sun" : "moon"}
+          buttonClass="bg-transparent p-0"
+          iconClass="text-[#7F7C82] hover:text-gray-400 dark:text-yellow-400 dark:hover:text-yellow-500 transition-colors duration-250 ease-in-out"
+          width="32px"
+          height="32px"
+          clickHandler={toggleTheme}
+          ariaLabel={$_(currentTheme ? "navbar.toggleTheme.light" : "navbar.toggleTheme.dark")}
+        />
+      {:else}
+        <div class="w-[32px] h-[32px]"></div>
+      {/if}
+    </div>
+  </nav>
 </header>
 <Modal />

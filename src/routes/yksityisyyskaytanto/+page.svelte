@@ -1,56 +1,29 @@
 <script>
-	import {
-		PrivacyPolicyHeader as TextHeader,
-		PrivacyPolicySection as TextSection
-	} from '$components';
+  import { _ as t } from "svelte-i18n";
+  import { PrivacyPolicyHeader as TextHeader, PrivacyPolicySection as TextSection } from "$components";
 </script>
 
 <svelte:head>
-	<title>Semanttuli - Yksityisyyskäytäntö</title>
+  <title>{$t("privacy.title")} - {$t("navbar.title")}</title>
 </svelte:head>
 
 <div class="mb-4 rounded px-6 pb-8 pt-6 shadow-md">
-	<a
-		href="/"
-		class="font-semibold text-highlight-light transition-colors duration-200 ease-in-out hover:text-highlight-hover-light dark:text-highlight-dark dark:hover:text-highlight-hover-dark"
-		>⬅ Takaisin peliin</a
-	>
-	<TextHeader level={2} text="Yksityisyyskäytäntö" />
+  <a
+    href="/"
+    class="font-semibold text-highlight-light transition-colors duration-200 ease-in-out hover:text-highlight-hover-light dark:text-highlight-dark dark:hover:text-highlight-hover-dark"
+    >⬅ {$t("game.backToGame")}</a
+  >
+  <TextHeader level={2} text={$t("privacy.title")} />
 
-	<TextSection
-		title=""
-		content="Suojataksemme arkaluontoisia tietojasi paremmin, tarjoamme tämän tietosuojaselosteen, jossa selitetään tietokäytäntöjämme erityisesti sen osalta, minkä tyyppisiä ja minkä verran tietoja sinulta saatetaan kerätä käyttämällä palvelua (Semanttuli-sovellus tai verkkosivusto (semanttuli.fly.dev)). Tietokäytännöt ovat samat käytetystä laitteesta riippumatta."
-	/>
+  <TextSection title="" content={$t("privacy.sections.intro")} />
 
-	<TextSection title="Sitoumuksemme" content="Sivusto ei kerää minkäänlaisia henkilötietoja." />
+  <TextSection title={$t("privacy.sections.commitmentTitle")} content={$t("privacy.sections.commitment")} />
 
-	<TextSection
-		title="Kerättävä data"
-		content="Tiedot käyttäjien IP-osoitteista, peleihin käytetystä ajasta sekä siitä, mihin käyttäjien klikkaukset
-		kohdistuvat säilytetään väliaikaisesti. Näitä tietoja ei koskaan myydä tai jaeta kenenkään muun kanssa.
-		Tietoja käytetään käyttäjien ja palvelun välisen interaktion tutkimiseen. Tämän tarkoituksena on
-		käyttöliittymän parantaminen."
-	/>
+  <TextSection title={$t("privacy.sections.collectedDataTitle")} content={$t("privacy.sections.collectedData")} />
 
-	<TextSection
-		title="Lokitiedot"
-		content="Keräämme tiettyjä lokitietoja aina, kun käytät verkkosivustoamme. Keräämämme tiedot voivat
-		sisältää IP-osoitteesi, laitteen nimen ja version sekä ajan, jolloin käytät sivustoa. Näitä ja
-		muita tilastoja käytetään apuna käyttökokemuksen parantamisessa."
-	/>
+  <TextSection title={$t("privacy.sections.logDataTitle")} content={$t("privacy.sections.logData")} />
 
-	<TextSection
-		title="Evästeet"
-		content="Evästeet ovat tiedostoja, joissa on pieni määrä tietoa ja joita käytetään yleisesti anonyymeinä yksilöllisinä
-		tunnisteina. Ne lähetetään selaimeesi vierailluilta verkkosivustoilta, ja ne tallennetaan laitteesi
-		sisäiseen muistiin. Tämä palvelu ei itsessään käytä evästeitä. Palvelu käyttää kuitenkin Google Analytics
-		-analytiikkatyökalua anonyymin käyttäjädatan keruuseen. Google Analytics saattaa käyttää evästeitä
-		erillisten
-		käyttäjien ja istuntojen erottamiseen."
-	/>
+  <TextSection title={$t("privacy.sections.cookiesTitle")} content={$t("privacy.sections.cookies")} />
 
-	<TextSection
-		title="Yhteystiedot"
-		content="Kaikki sovellukseen liittyvät kysymykset ja palautteet voi lähettää osoitteeseen ilmariware@gmail.com."
-	/>
+  <TextSection title={$t("privacy.sections.contactTitle")} content={$t("privacy.sections.contact")} />
 </div>

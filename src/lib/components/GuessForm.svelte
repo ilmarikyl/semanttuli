@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { _ } from 'svelte-i18n';
 	import { onMount, tick } from 'svelte';
 	import { gameState, updateGuesses, setSortOrder } from '$stores/gameState';
 	import { NotificationBanner } from '$lib/components';
@@ -98,7 +99,7 @@
 		bind:this={inputElement}
 		bind:value={guess}
 		on:keydown={handleKeyDown}
-		placeholder="Arvaa sana"
+		placeholder={$_('game.guessPlaceholder')}
 		type="search"
 		inputmode="text"
 		autocorrect="off"
@@ -112,6 +113,6 @@
 		on:click={handleSubmit}
 		disabled={isPending}
 		class="duration-250 w-24 cursor-pointer rounded-r-3xl bg-submit-btn-bg-light py-3 text-center text-white transition-colors ease-in-out hover:bg-submit-btn-bg-hover-light focus:outline-none dark:bg-submit-btn-bg-dark dark:hover:bg-submit-btn-bg-hover-dark sm:w-32"
-		value="Arvaa"
+		value={$_('game.guess')}
 	/>
 </div>

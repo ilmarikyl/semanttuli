@@ -12,6 +12,7 @@ import { get } from 'svelte/store';
 import { determineHintRank, getSecretWord, decodeB64word } from '$lib/utils/utils';
 import { updateStat } from '$stores/stats';
 import { getCosSim } from './math';
+import { _ } from 'svelte-i18n';
 
 export async function fetchInitialGameData(secretWord: string, gameNumber: number) {
 	try {
@@ -99,9 +100,9 @@ export async function processGuess(guess: string, secretWord: string, secretWord
 
 		if (!response.ok) {
 			if (response.status === 404) {
-				return { error: `En tunnista sanaa "${guess}" 🥲` };
+				return { error: get(_)('errors.wordNotRecognized', { values: { word: guess } }) };
 			} else {
-				return { error: 'Tapahtui odottamaton virhe, yritä uudelleen 🤔' };
+				return { error: get(_)('errors.unexpectedError') };
 			}
 		}
 		const data = await response.json();
@@ -142,6 +143,6 @@ export async function processGuess(guess: string, secretWord: string, secretWord
 		return { success: true, isCorrectGuess };
 	} catch (error) {
 		console.error('Fetch error:', error);
-		return { error: 'Jokin meni pieleen, yritä uudelleen ☹️' };
+		return { error: get(_)('errors.fetchError') };
 	}
 }

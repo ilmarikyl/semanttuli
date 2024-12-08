@@ -1,7 +1,14 @@
+.git
+.gitignore
 node_modules
 npm-debug.log
+README.md
+.github
+tests
+playwright-report
+test-results
+coverage
+.svelte-kit
 build
 .dockerignore
 Dockerfile
-.git
-.gitignore

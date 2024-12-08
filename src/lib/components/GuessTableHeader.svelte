@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { _ } from 'svelte-i18n';
 	import SortableHeader from './SortableHeader.svelte';
 	import TooltipHeader from './TooltipHeader.svelte';
 
@@ -19,7 +20,7 @@
 				extraClasses="pl-2 sm:pl-12 rounded-tl-2xl py-[0.5rem] sm:rounded-tl-3xl"
 			/>
 			<SortableHeader
-				label="Arvaus"
+				label={$_('guessTable.word')}
 				column="word"
 				{sortBy}
 				{sortOrder}
@@ -27,7 +28,7 @@
 				extraClasses="pl-0 sm:pl-8"
 			/>
 			<SortableHeader
-				label="Pisteet"
+				label={$_('guessTable.score')}
 				column="similarityScore"
 				{sortBy}
 				{sortOrder}
@@ -35,8 +36,8 @@
 				extraClasses="pl-2 sm:pl-8"
 			/>
 			<TooltipHeader
-				label="Joko polttaa"
-				tooltip="Kun arvaamasi sana on tuhannen lähimmän joukossa, palkki kertoo, kuinka lähellä se on. Mitä suurempi luku/palkki, sitä lähempänä."
+				label={$_('guessTable.gettingWarm')}
+				tooltip={$_('guessTable.gettingWarmTooltip')}
 				extraClasses="rounded-tr-3xl"
 			/>
 		</tr>

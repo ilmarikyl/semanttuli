@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { slide, fly } from 'svelte/transition';
+	import { _ } from 'svelte-i18n';
+	import { slide } from 'svelte/transition';
 	import { gameState, toggleGameInfoCollapsed } from '$stores/gameState';
 	import { Spinner } from '$components';
 	import type { SimilarityData } from '$lib/types';
@@ -11,16 +12,16 @@
 	const similarityKeys: (keyof SimilarityData)[] = ['top', 'top10', 'top1000'];
 
 	const similarityLabels = {
-		top: 'Lähin',
-		top10: '10. lähin',
-		top1000: '1000. lähin'
+		top: $_('game.nearest'),
+		top10: $_('game.tenthNearest'),
+		top1000: $_('game.thousandNearest'),
 	};
 </script>
 
 <div class="rounded-lg p-3 py-3 sm:p-3 sm:py-4">
 	<div class="mb-0 flex w-full flex-row items-center justify-between sm:mb-4">
 		<div class="flex flex-row items-end gap-1 font-Concert text-base sm:text-xl">
-			<span>PELI:</span>
+			<span>{$_('game.game')}</span>
 			<div class="flex h-10 items-end">
 				{#if gameNumber !== -1}
 					<span class="text-3xl sm:text-4xl">#{gameNumber}</span>
@@ -51,8 +52,8 @@
 	</div>
 	{#if !isGameInfoCollapsed}
 		<div transition:slide={{ duration: 300 }} class="mt-4">
-			<p class="mb-4 text-center text-xs sm:text-sm">
-				Mitä korkeammat pisteet, sitä lähempänä arvaus on salaista sanaa.
+			<p class="mb-4 text-center text-xs sm:text-base">
+				{$_('game.scoreHint')}
 			</p>
 			<div class="flex items-center justify-between border-gray-300 dark:border-gray-700">
 				{#each similarityKeys as key}

@@ -17,6 +17,7 @@
 	export let width = '24px';
 	export let height = '24px';
 	export let clickHandler: (() => void) | null = null;
+	export let ariaLabel: string | undefined = undefined;
 
 	const handleClick = () => {
 		if (clickHandler) {
@@ -25,7 +26,11 @@
 	};
 </script>
 
-<button class={`grow-on-hover bg-transparent p-0 ${buttonClass}`} on:click={handleClick}>
+<button 
+	class={`grow-on-hover bg-transparent p-0 ${buttonClass}`} 
+	on:click={handleClick}
+	aria-label={ariaLabel}
+>
 	<Icon {iconName} key={Math.random()} class={iconClass} {width} {height} />
 </button>
 

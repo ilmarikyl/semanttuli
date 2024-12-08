@@ -1,11 +1,7 @@
-# fly.toml file generated for semanttuli on 2022-09-28T21:22:55+03:00
-
-app = "semanttuli"
+app = "meaningle"
 kill_signal = "SIGINT"
 kill_timeout = 5
 processes = []
-
-[env]
 
 [experimental]
   allowed_public_ports = []

@@ -1,13 +1,23 @@
 import base64 from 'base-64';
 import utf8 from 'utf8';
-import { START_DAY } from './constants';
-import { secretWordsEncoded } from '$lib/data/secretWords';
-import type { Guess, RankThreshold } from '../types';
+import { START_DAYS } from './constants';
+import { currentLanguage } from '$lib/config/language';
+import { _ } from 'svelte-i18n';
+import { get } from 'svelte/store';
+import { type RankThreshold, type Guess } from '$lib/types';
+
+let secretWordsEncoded: string[] = [];
+
+export async function initializeSecretWords() {
+	const module = await import(`$lib/data/secretWords${currentLanguage[0].toUpperCase() + currentLanguage.slice(1)}.ts`);
+	secretWordsEncoded = module.secretWordsEncoded;
+}
 
 export function getGameNumber(): number {
 	const now = Date.now() + 10800000; // add 10800000 for UTC+3
 	const today = Math.floor(now / 86400000);
-	const puzzleNumber = (today - START_DAY) % secretWordsEncoded.length;
+	const startDay = START_DAYS[currentLanguage as keyof typeof START_DAYS];
+	const puzzleNumber = (today - startDay) % secretWordsEncoded.length;
 	return puzzleNumber;
 }
 
@@ -82,27 +92,59 @@ function formatSimilarity(score: number | undefined, rank: number | undefined): 
 }
 
 export function getClipboardContent(winState: string, gameNumber: number, guesses: Guess[], hintsUsed: number): string {
+	const t = get(_);
+
 	if (winState === 'gaveUp') {
-		return `🚫 Semanttuli #${gameNumber} luovutettu ${guesses.length} arvauksen ja ${hintsUsed} vinkin jälkeen | semanttuli.fly.dev`;
+		return t('clipboardContent.gaveUp', {
+			values: {
+				gameNumber,
+				guesses: guesses.length,
+				hints: hintsUsed,
+			},
+		});
 	}
 
 	if (guesses.length === 1) {
-		return `✅ Semanttuli #${gameNumber} ratkaistu ensimmäisellä arvauksella! | semanttuli.fly.dev`;
+		return t('clipboardContent.firstGuess', { values: { gameNumber } });
 	}
 
 	const firstGuess = guesses.find((guess) => guess.guessNumber === 1);
 	const firstTop1000Guess = getFirstTopGuess(guesses);
 	const penultimateGuess = getSecondToLastGuess(guesses);
 
-	let content = `✅ Semanttuli #${gameNumber} ratkaistu ${guesses.length} arvauksella ja ${hintsUsed} vinkillä.\n`;
-	content += `▪️Ensimmäisen arvaukseni samankaltaisuus oli ${formatSimilarity(firstGuess?.similarityScore, firstGuess?.rank)}.\n`;
+	let content =
+		t('clipboardContent.solved', {
+			values: {
+				gameNumber,
+				guesses: guesses.length,
+				hints: hintsUsed,
+			},
+		}) + '\n';
+
+	content +=
+		t('clipboardContent.firstGuessSimilarity', {
+			values: {
+				similarity: formatSimilarity(firstGuess?.similarityScore, firstGuess?.rank),
+			},
+		}) + '\n';
 
 	if (firstTop1000Guess && firstTop1000Guess.guessNumber !== 1) {
-		content += `▪️Ensimmäinen arvaukseni top 1000:ssa oli #${firstTop1000Guess.guessNumber}.\n`;
+		content +=
+			t('clipboardContent.firstTop1000', {
+				values: {
+					guessNumber: firstTop1000Guess.guessNumber,
+				},
+			}) + '\n';
 	}
 
-	content += `▪️Toiseksi viimeisen arvaukseni samankaltaisuus oli ${formatSimilarity(penultimateGuess?.similarityScore, penultimateGuess?.rank)}.\n`;
-	content += `\nsemanttuli.fly.dev`;
+	content +=
+		t('clipboardContent.penultimateSimilarity', {
+			values: {
+				similarity: formatSimilarity(penultimateGuess?.similarityScore, penultimateGuess?.rank),
+			},
+		}) + '\n';
+
+	content += `\n${t('clipboardContent.url')}`;
 
 	return content;
 }

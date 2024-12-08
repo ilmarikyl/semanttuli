@@ -13,7 +13,9 @@
 		"test:integration": "playwright test",
 		"test:unit": "vitest",
 		"lint": "eslint .",
-		"lint:fix": "eslint . --fix"
+		"lint:fix": "eslint . --fix",
+		"deploy:fi": "mv .env .env.backup && cp .env.deploy.fi .env && flyctl deploy --config fly.fi.toml && mv .env.backup .env",
+		"deploy:en": "mv .env .env.backup && cp .env.deploy.en .env && flyctl deploy --config fly.en.toml && mv .env.backup .env"
 	},
 	"devDependencies": {
 		"@eslint/js": "^9.15.0",
@@ -53,6 +55,7 @@
 		"dotenv": "^16.4.5",
 		"mongodb": "^6.11.0",
 		"svelte-canvas-confetti": "^0.6.0",
+		"svelte-i18n": "^4.0.1",
 		"utf8": "^3.0.0"
 	}
 }

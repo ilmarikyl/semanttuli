@@ -1,23 +1,17 @@
+import { currentConfig } from '$lib/config/language';
 import { type Document, type WithId, MongoClient, Db, Collection } from 'mongodb';
 import { config } from 'dotenv';
 
 config();
 
-const uri = process.env.MONGO_CONNECTION_STRING;
-const dbName = process.env.DB_NAME;
-
-if (!uri || !dbName) {
-	throw new Error('MONGO_CONNECTION_STRING or DB_NAME is not defined in the environment');
-}
-
-// Singleton MongoClient instance
 let client: MongoClient | null = null;
 let db: Db | null = null;
 
 export async function connectDB(): Promise<Db> {
 	if (!client) {
-		if (typeof uri !== 'string') {
-			throw new Error('MONGO_CONNECTION_STRING must be a string');
+		const uri = process.env.MONGO_CONNECTION_STRING;
+		if (!uri) {
+			throw new Error('MONGO_CONNECTION_STRING is not defined');
 		}
 		client = new MongoClient(uri);
 	}
@@ -25,10 +19,11 @@ export async function connectDB(): Promise<Db> {
 	if (!db) {
 		try {
 			await client.connect();
-			db = client.db(dbName);
+			db = client.db(currentConfig.dbName);
+			console.log('Connected to MongoDB database:', currentConfig.dbName);
 		} catch (error) {
 			console.error('MongoDB connection error:', error);
-			throw error; // Re-throw the error after logging
+			throw error;
 		}
 	}
 

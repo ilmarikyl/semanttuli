@@ -1,29 +1,69 @@
 <!doctype html>
-<html lang="en">
+<html lang="%lang%">
 
 <head>
+	<!-- Essential Meta Tags -->
 	<meta charset="utf-8" />
-	<!-- Käy ao. jutut vielä läpi ja muokkaa tarvittaessa -->
-	<title>Semanttuli</title>
-	<meta name="description" content="Semanttuli - Selvitä salainen sana" />
-	<meta property="og:title" content="Semanttuli" />
-	<meta property="og:description" content="Semanttuli - Selvitä salainen sana" />
-	<meta property="og:image" content="%sveltekit.assets%/social-preview.png" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+	<!-- Primary Meta Tags -->
+	<title>%title%</title>
+	<meta name="description" content="%description%" />
+	<meta name="theme-color" content="#F1F1F6" media="(prefers-color-scheme: light)">
+	<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+
+	<!-- Open Graph / Facebook -->
 	<meta property="og:type" content="website" />
+	<meta property="og:title" content="%ogTitle%" />
+	<meta property="og:description" content="%ogDescription%" />
+	<meta property="og:image" content="%sveltekit.assets%/social-preview.png" />
+
+	<!-- Twitter -->
 	<meta name="twitter:card" content="summary_large_image" />
-	<!-- Added these too ---->
-	<link rel="stylesheet" href="assets/styles.css">
-	<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
-	<link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png">
-	<link rel="icon" type="image/png" sizes="192x192" href="assets/android-chrome-192x192.png">
-	<link rel="icon" type="image/png" sizes="512x512" href="assets/android-chrome-512x512.png">
-	<link rel="manifest" href="manifest.json">
+
+	<!-- Preconnect -->
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<!-- ------ -->
-	<link rel="icon" href="%sveltekit.assets%/favicon.png" />
 
-	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<!-- Preload Fonts -->
+	<link rel="preload"
+		href="https://fonts.googleapis.com/css2?family=Rubik:wght@200;300;400;500;600;700&display=swap"
+		as="style" crossorigin />
+	<link rel="preload" href="https://fonts.googleapis.com/css2?family=Purple+Purse&display=swap"
+		as="style" crossorigin />
+	<link rel="preload" href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;500;600;700;800;900;1000&display=swap"
+		as="style" crossorigin />
+	<link rel="preload" href="https://fonts.googleapis.com/css2?family=Concert+One&family=Oswald:wght@200..700&display=swap"
+		as="style" crossorigin />
+
+	<!-- Font Stylesheets -->
+	<link rel="stylesheet"
+		href="https://fonts.googleapis.com/css2?family=Rubik:wght@200;300;400;500;600;700&display=swap"
+		crossorigin />
+	<link rel="stylesheet"
+		href="https://fonts.googleapis.com/css2?family=Purple+Purse&display=swap"
+		crossorigin />
+	<link rel="stylesheet"
+		href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;500;600;700;800;900;1000&display=swap"
+		crossorigin />
+	<link rel="stylesheet"
+		href="https://fonts.googleapis.com/css2?family=Concert+One&family=Oswald:wght@200..700&display=swap"
+		crossorigin />
+
+	<!-- Favicons -->
+	<link rel="icon" type="image/png" sizes="32x32" href="assets/%lang%/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="assets/%lang%/favicon-16x16.png">
+	<link rel="icon" type="image/png" sizes="192x192" href="assets/%lang%/android-chrome-192x192.png">
+	<link rel="icon" type="image/png" sizes="512x512" href="assets/%lang%/android-chrome-512x512.png">
+	<link rel="manifest" href="manifest.%lang%.json">
+
+	<!-- PWA Support -->
+	<meta name="mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="default">
+	<meta name="apple-mobile-web-app-title" content="%title%">
+	<link rel="apple-touch-icon" href="assets/%lang%/apple-touch-icon.png">
+
 	%sveltekit.head%
 </head>
 
