@@ -95,11 +95,11 @@ $: processedFaqItems = faqItems().map((item) => ({
     role="button"
     tabindex="0"
     aria-label={$_("navbar.openInfo")}
-    class="backdrop-cursor fixed inset-0 z-40 flex items-center justify-center overflow-y-auto bg-black bg-opacity-50 font-Rubik"
+    class="backdrop-cursor fixed inset-0 z-40 flex items-center justify-center overflow-y-auto bg-black bg-opacity-50 font-Rubik py-2 px-2"
     on:click={handleBackdropClick}
     on:keydown={handleBackdropKeydown}
   >
-    <div class="relative m-3 min-h-fit w-full max-w-2xl">
+    <div class="relative w-full max-w-2xl">
       <button
         class="close-button absolute z-50 mr-2 text-gray-500 transition-colors duration-200 ease-in-out hover:text-red-600 dark:text-gray-400 dark:hover:text-red-500"
         aria-label={$_("navbar.openInfo")}
@@ -110,7 +110,7 @@ $: processedFaqItems = faqItems().map((item) => ({
         </svg>
       </button>
       <div
-        class="modal-wrapper relative w-full max-w-2xl overflow-hidden rounded-2xl bg-modal-bg-light pt-0 shadow-lg dark:bg-modal-bg-dark"
+        class="modal-wrapper relative w-full overflow-hidden rounded-2xl bg-modal-bg-light pt-0 shadow-lg dark:bg-modal-bg-dark"
       >
         <div id="modal-content" role="document" class="p-1 focus:outline-none" tabindex="-1">
           <h2 class="my-4 px-3 text-base sm:px-4 sm:text-xl">
@@ -188,12 +188,13 @@ $: processedFaqItems = faqItems().map((item) => ({
 
   .close-button {
     position: absolute;
-    top: -10px;
-    right: -15px;
+    top: 0.5rem;
+    right: 0rem;
     z-index: 50;
     padding: 0.5rem;
     background-color: white;
     border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
 
   .scroll-indicator-arrow {
@@ -224,17 +225,22 @@ $: processedFaqItems = faqItems().map((item) => ({
   .modal-wrapper {
     position: relative;
     overflow: hidden;
-    max-height: 90vh;
-    margin: 1rem auto;
+    max-height: calc(100vh - 2rem);
+    margin: 0 auto;
   }
 
   @supports (-webkit-touch-callout: none) {
     .modal-wrapper {
-      max-height: -webkit-fill-available;
+      /* Adjust for iOS safari's address bar and bottom bar */
+      max-height: calc(100vh - 4rem);
+      /* Add padding to ensure content is not hidden behind bottom bar */
+      padding-bottom: env(safe-area-inset-bottom);
     }
   }
 
   .scrollable-content {
     position: relative;
+    /* Ensure proper padding at the bottom for iOS */
+    padding-bottom: max(1rem, env(safe-area-inset-bottom));
   }
 </style>

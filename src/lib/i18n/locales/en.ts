@@ -31,7 +31,7 @@ export default {
 		resultCopied: 'Result copied to clipboard!',
 		continueGuessing: 'You can still continue entering words.',
 		secretWordIs: 'The secret word is:',
-		foundSecretWord: 'You found the secret word with',
+		foundSecretWord: 'Secret word found with',
 		hintsUsedTotal: 'You used a total of',
 		hintsWord: 'hints',
 		noHintsUsed: "You didn't use any hints!",

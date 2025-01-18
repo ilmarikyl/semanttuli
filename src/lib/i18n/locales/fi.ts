@@ -8,7 +8,7 @@ export default {
 		},
 	},
 	modal: {
-		title: 'Semanttuli — Selvitä salainen sana',
+		title: 'Selvitä salainen sana',
 		instructions: 'Ohjeet pelaamiseen',
 		howToPlay: 'Miten pelataan',
 		faq: 'Kysymyksiä ja vastauksia',
