@@ -88,9 +88,8 @@ export default {
 		rank: '#',
 	},
 	footer: {
-		downloadAndroid: 'Download Android app from',
-		playStore: 'Play Store',
-		createdBy: '©',
+		downloadAndroid: 'Lataa Android-sovellus',
+		playStore: 'Play Storesta',
 	},
 	privacy: {
 		title: 'Yksityisyyskäytäntö',

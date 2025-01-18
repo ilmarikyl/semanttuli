@@ -90,7 +90,6 @@ export default {
 	footer: {
 		downloadAndroid: 'Download Android app from',
 		playStore: 'Play Store',
-		createdBy: 'Made by',
 	},
 	privacy: {
 		title: 'Privacy Policy',
