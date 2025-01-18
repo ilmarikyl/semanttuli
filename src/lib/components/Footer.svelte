@@ -17,7 +17,7 @@
     >
     © 2025
     {#if currentLocale === "fi"}
-      . {$_("footer.downloadAndroid")}
+      – {$_("footer.downloadAndroid")}
       <a
         href="https://play.google.com/store/apps/details?id=com.herokuapp.semanttuli.twa"
         target="_blank"
