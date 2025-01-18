@@ -178,12 +178,9 @@ export default {
 			content: `Yes! I've created a Finnish version at <a target="_blank" rel="noopener noreferrer" href="https://semanttuli.fly.dev/">semanttuli.fly.dev</a>.<br/><br/>
 				The original game <a target="_blank" rel="noopener noreferrer" href="https://semantle.com/">Semantle</a> can be found at semantle.com.
 				Other versions have been created in many languages: <a target="_blank" rel="noopener noreferrer" href="https://swemantle.riddle.nu/">Swedish</a>, 
-				<a target="_blank" rel="noopener noreferrer" href="https://semantle-he.herokuapp.com/">Hebrew</a>, 
-				<a target="_blank" rel="noopener noreferrer" href="http://semantle-es.cgk.cl/">Spanish</a>, 
 				<a target="_blank" rel="noopener noreferrer" href="https://contexto.me/">Portuguese</a>, 
 				<a target="_blank" rel="noopener noreferrer" href="https://cemantix.herokuapp.com/">French</a>, 
-				<a target="_blank" href="http://semantlich.johannesgaetjen.de/">German</a> 
-				(<a target="_blank" rel="noopener noreferrer" href="https://semantel.tarphos.de/">another version</a>),
+				<a target="_blank" href="https://semantel.tarphos.de/">German</a>, 
 				<a target="_blank" rel="noopener noreferrer" href="https://semantle.ozanalpay.com/">Turkish</a>, 
 				<a target="_blank" rel="noopener noreferrer" href="https://kcl.somecrap.ru/semantle.today/">Russian</a>, 
 				<a target="_blank" rel="noopener noreferrer" href="https://semantle.be/">Dutch</a>, and

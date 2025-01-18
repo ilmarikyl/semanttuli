@@ -178,20 +178,16 @@ export default {
 		},
 		otherLanguages: {
 			title: 'Voinko pelata muilla kielillä?',
-			content: `Kyllä, ainakin <a target="_blank" rel="noopener noreferrer"
-				href="https://semantle.com/">englanniksi</a>, <a target="_blank" rel="noopener noreferrer"
-				href="https://swemantle.riddle.nu/">ruotsiksi</a>, <a target="_blank" rel="noopener noreferrer"
-				href="https://semantle-he.herokuapp.com/">hepreaksi</a>, <a target="_blank"
-				rel="noopener noreferrer" href="http://semantle-es.cgk.cl/">espanjaksi</a>, <a target="_blank"
-				rel="noopener noreferrer" href="https://contexto.me/">portugaliksi</a>, <a target="_blank"
-				rel="noopener noreferrer" href="https://cemantix.herokuapp.com/">ranskaksi</a>, <a target="_blank
-				href="http://semantlich.johannesgaetjen.de/">saksaksi</a> (<a target="_blank
-				rel="noopener noreferrer" href="https://semantel.tarphos.de/">toinen versio</a>),
-				<a target="_blank" rel="noopener noreferrer" href="https://semantle.ozanalpay.com/">turkiksi</a>, <a
-				target="_blank" rel="noopener noreferrer"
-				href="https://kcl.somecrap.ru/semantle.today/">venäjäksi</a>, <a target="_blank"
-				rel="noopener noreferrer" href="https://semantle.be/">hollanniksi</a> ja <a target="_blank"
-				rel="noopener noreferrer" href="https://semantle-ko.newsjel.ly/">koreaksi</a>.`,
+			content: `Kyllä! Olen toteuttanut myös englanninkielisen version, Meaninglen, joka löytyy osoitteesta <a target="_blank" rel="noopener noreferrer" href="https://meaningle.fly.dev/">meaningle.fly.dev</a>.<br/><br/>
+				Alkuperäinen <a target="_blank" rel="noopener noreferrer" href="https://semantle.com/">Semantle</a> löytyy osoitteesta semantle.com.
+				Peli löytyy myös ainakin <a target="_blank" rel="noopener noreferrer" href="https://swemantle.riddle.nu/">ruotsiksi</a>, 
+				<a target="_blank" rel="noopener noreferrer" href="https://contexto.me/">portugaliksi</a>, 
+				<a target="_blank" rel="noopener noreferrer" href="https://cemantix.herokuapp.com/">ranskaksi</a>, 
+				<a target="_blank" href="https://semantel.tarphos.de/">saksaksi</a> 
+				<a target="_blank" rel="noopener noreferrer" href="https://semantle.ozanalpay.com/">turkiksi</a>, 
+				<a target="_blank" rel="noopener noreferrer" href="https://kcl.somecrap.ru/semantle.today/">venäjäksi</a>, 
+				<a target="_blank" rel="noopener noreferrer" href="https://semantle.be/">hollanniksi</a> ja
+				<a target="_blank" rel="noopener noreferrer" href="https://semantle-ko.newsjel.ly/">koreaksi</a>.`,
 		},
 		sourceCode: {
 			title: 'Lähdekoodi?',
