@@ -14,7 +14,7 @@
   $: yesterdayNearby10 = $gameState.yesterdayNearby10;
 
   // Reactive processed FAQ items
-$: processedFaqItems = faqItems().map((item) => ({
+  $: processedFaqItems = faqItems().map((item) => ({
     ...item,
     content: item.content
       .replace("<YESTERDAY_WORD>", `<span style="font-weight: 500">${yesterdayWord}</span>` || "N/A")
@@ -47,22 +47,36 @@ $: processedFaqItems = faqItems().map((item) => ({
     return () => window.removeEventListener("keydown", handleKeydown);
   });
 
+  let showGradient = false;
+
+  function handleScroll(event: Event) {
+    const target = event.target as HTMLElement;
+    const isAtBottom = target.scrollHeight - target.scrollTop <= target.clientHeight + 20; // 20px threshold
+    showGradient = !isAtBottom;
+
+    if (target.scrollTop > 20) {
+      showScrollIndicator = false;
+    }
+  }
+
   $: if (visible) {
     tick().then(() => {
       const modal = document.getElementById("modal-content");
       const scrollableArea = document.querySelector(".scrollable-content");
-      
+
       if (modal) {
         modal.focus();
       }
-      
+
       // Initialize scroll indicator
       const isDesktop = window.innerWidth >= 768;
       showScrollIndicator = !isDesktop;
-      
+
       // Set up scroll listener
       if (scrollableArea) {
         scrollableArea.addEventListener("scroll", handleScroll);
+        // Initial check
+        handleScroll({ target: scrollableArea } as unknown as Event);
       }
 
       // Hide arrow after 7 seconds
@@ -80,13 +94,6 @@ $: processedFaqItems = faqItems().map((item) => ({
   }
 
   let showScrollIndicator = false;
-
-  function handleScroll(event: Event) {
-    const target = event.target as HTMLElement;
-    if (target.scrollTop > 20) {
-      showScrollIndicator = false;
-    }
-  }
 </script>
 
 {#if visible}
@@ -120,7 +127,7 @@ $: processedFaqItems = faqItems().map((item) => ({
             — {$_("modal.title")}
           </h2>
 
-          <div class="scrollable-content relative max-h-[75vh] overflow-y-auto px-3 sm:px-4">
+          <div class="scrollable-content relative max-h-[75vh] overflow-y-auto px-3 sm:px-4" on:scroll={handleScroll}>
             <h3 class="mb-2 text-base font-semibold sm:text-lg">{$_("modal.instructions")}</h3>
             <div class="flex flex-col gap-4">
               {#each getGameDescription() as paragraph}
@@ -132,7 +139,15 @@ $: processedFaqItems = faqItems().map((item) => ({
             <h2 class="mb-5 text-lg sm:text-xl">{$_("modal.faq")}</h2>
 
             <Accordion items={processedFaqItems} />
+            <div class="h-8"></div>
           </div>
+
+          {#if showGradient}
+            <div class="gradient-overlay-container px-3 sm:px-4">
+              <div class="gradient-overlay" />
+            </div>
+          {/if}
+
           {#if showScrollIndicator}
             <div class="scroll-indicator-arrow">
               <svg
@@ -242,5 +257,30 @@ $: processedFaqItems = faqItems().map((item) => ({
     position: relative;
     /* Ensure proper padding at the bottom for iOS */
     padding-bottom: max(1rem, env(safe-area-inset-bottom));
+  }
+
+  .gradient-overlay-container {
+    position: sticky;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 40px;
+    margin-top: -40px;
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  .gradient-overlay {
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(var(--modal-bg-rgb), 0), rgb(var(--modal-bg-rgb)) 100%);
+  }
+
+  /* Update the background color variables to use RGB values */
+  :root {
+    --modal-bg-rgb: 255, 255, 255;
+  }
+
+  :global(.dark) {
+    --modal-bg-rgb: 26, 26, 26;
   }
 </style>
