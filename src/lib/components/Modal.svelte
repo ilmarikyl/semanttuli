@@ -127,7 +127,7 @@
             — {$_("modal.title")}
           </h2>
 
-          <div class="scrollable-content relative max-h-[75vh] overflow-y-auto px-3 sm:px-4" on:scroll={handleScroll}>
+          <div class="scrollable-content relative max-h-[65dvh] overflow-y-auto px-3 sm:px-4" on:scroll={handleScroll}>
             <h3 class="mb-2 text-base font-semibold sm:text-lg">{$_("modal.instructions")}</h3>
             <div class="flex flex-col gap-4">
               {#each getGameDescription() as paragraph}
