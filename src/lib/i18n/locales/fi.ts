@@ -37,6 +37,7 @@ export default {
 		noHintsUsed: 'Et käyttänyt yhtään vinkkiä!',
 		seeNearestWords: 'Näet salaista sanaa lähimmät sanat',
 		here: 'täällä',
+		nearestWordsLink: 'Lähimmät sanat',
 		guessesUsedTotal: 'Käytit yhteensä',
 		withGuesses: 'arvauksella',
 		usedGuesses: 'arvausta',
@@ -47,6 +48,31 @@ export default {
 		confirmGiveUp: 'Oletko varma, että haluat luovuttaa?',
 		yes: 'Kyllä',
 		cancel: 'Peruuta',
+	},
+	leaderboard: {
+		title: 'Päivän tulostaulu',
+		place: 'Sija',
+		name: 'Nimi',
+		guesses: 'Arvauksia',
+		hints: 'Vinkkejä',
+		closest: 'Paras arvaus',
+		notWarm: 'Ei polta',
+		giveUps: 'Luovuttaneet',
+		you: 'sinä',
+		empty: 'Ei tuloksia vielä. Voit olla ensimmäinen.',
+		namePlaceholder: 'Nimesi',
+		postNamed: 'Lisää nimellä',
+		postAnonymous: 'Lisää nimettömänä',
+		notNow: 'Ei nyt',
+		addResult: 'Lisää tulokseni',
+		posted: 'Tuloksesi on taulukossa.',
+		capReached: 'Päivän taulu on täynnä.',
+		nameTaken: 'Nimi on jo varattu tältä päivältä.',
+		nameReserved: 'Nimi on varattu anonyymeille tuloksille.',
+		nameInvalid: 'Käytä 1–20 kirjainta, numeroa tai välilyöntiä.',
+		loadError: 'Tulostaulua ei voitu ladata.',
+		postError: 'Tulosta ei voitu lisätä. Yritä uudelleen.',
+		anonymous: 'Nimetön',
 	},
 	errors: {
 		wordNotRecognized: 'En tunnista sanaa "{word}" 🥲',
@@ -96,9 +122,9 @@ export default {
 		sections: {
 			intro:
 				'Suojataksemme arkaluontoisia tietojasi paremmin, tarjoamme tämän tietosuojaselosteen, jossa selitetään tietokäytäntöjämme erityisesti sen osalta, minkä tyyppisiä ja minkä verran tietoja sinulta saatetaan kerätä käyttämällä palvelua (Semanttuli-sovellus tai verkkosivusto (semanttuli.fly.dev)). Tietokäytännöt ovat samat käytetystä laitteesta riippumatta.',
-			commitment: 'Sivusto ei kerää minkäänlaisia henkilötietoja.',
+			commitment: 'Sivusto ei vaadi tiliä eikä pidä sinusta profiilia.',
 			collectedData:
-				'Tiedot käyttäjien IP-osoitteista, peleihin käytetystä ajasta sekä siitä, mihin käyttäjien klikkaukset kohdistuvat säilytetään väliaikaisesti. Näitä tietoja ei koskaan myydä tai jaeta kenenkään muun kanssa. Tietoja käytetään käyttäjien ja palvelun välisen interaktion tutkimiseen. Tämän tarkoituksena on käyttöliittymän parantaminen.',
+				'Tiedot käyttäjien IP-osoitteista, peleihin käytetystä ajasta sekä siitä, mihin käyttäjien klikkaukset kohdistuvat säilytetään väliaikaisesti. Näitä tietoja ei koskaan myydä tai jaeta kenenkään muun kanssa. Tietoja käytetään käyttäjien ja palvelun välisen interaktion tutkimiseen. Tämän tarkoituksena on käyttöliittymän parantaminen. Jos lisäät tuloksesi päivän tulostauluun, antamasi nimi (tai nimetön merkintä), arvausmäärä, vinkkimäärä ja tulos säilytetään seuraavaan päivään ja sitten poistetaan. Lisääminen on vapaaehtoista.',
 			logData:
 				'Keräämme tiettyjä lokitietoja aina, kun käytät verkkosivustoamme. Keräämämme tiedot voivat sisältää IP-osoitteesi, laitteen nimen ja version sekä ajan, jolloin käytät sivustoa. Näitä ja muita tilastoja käytetään apuna käyttökokemuksen parantamisessa.',
 			cookies:

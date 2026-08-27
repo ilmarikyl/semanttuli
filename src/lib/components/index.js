@@ -20,3 +20,4 @@ export { default as SortableHeader } from './SortableHeader.svelte';
 export { default as GameInfo } from './GameInfo.svelte';
 export { default as GameControls } from './GameControls.svelte';
 export { default as WinState } from './WinState.svelte';
+export { default as Leaderboard } from './Leaderboard.svelte';

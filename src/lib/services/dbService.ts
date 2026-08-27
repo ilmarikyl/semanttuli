@@ -1,4 +1,5 @@
 import { currentConfig } from '$lib/config/language';
+import type { LeaderboardDoc } from '$lib/leaderboard/types';
 import { type Document, type WithId, MongoClient, Db, Collection } from 'mongodb';
 import { config } from 'dotenv';
 
@@ -51,4 +52,8 @@ export async function getSimilarityRangeCollection(): Promise<
 	Collection<WithId<{ word: string; top: number; top10: number; rest: number }>>
 > {
 	return getCollection('similarity_range');
+}
+
+export async function getLeaderboardCollection(): Promise<Collection<LeaderboardDoc>> {
+	return getCollection<LeaderboardDoc>('leaderboard_results');
 }

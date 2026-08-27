@@ -5,7 +5,7 @@
 	import { fetchInitialGameData } from '$lib/utils/gameLogic';
 	import { saveGame } from '$lib/utils/localStorage';
 	import { gameState, loadGameState, toggleGameInfoCollapsed } from '$stores/gameState';
-	import { GameInfo, GameControls, GuessForm, Guesses, WinState } from '$components';
+	import { GameInfo, GameControls, GuessForm, Guesses, WinState, Leaderboard } from '$components';
 	import { openModal } from '$stores/infoModal';
 
 	const gameNumber = getGameNumber();
@@ -54,6 +54,9 @@
 {/if}
 
 <WinState {winState} {guesses} {hintsUsed} {secretWord} {gameNumber} />
+{#if winState === 'won' || winState === 'gaveUp'}
+	<Leaderboard {winState} {guesses} {hintsUsed} {gameNumber} />
+{/if}
 <GuessForm {secretWord} />
 <Guesses />
 <GameControls {gameNumber} />

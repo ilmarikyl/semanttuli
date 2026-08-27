@@ -14,8 +14,11 @@
   export let gameNumber: number;
 
   let displayCopied = false;
-
   let showStats = false;
+
+  $: isWin = winState === "won";
+  $: isDone = winState === "won" || winState === "gaveUp";
+  $: decodedWord = decodeB64word(secretWord);
 
   function displayCopiedText() {
     setTimeout(() => {
@@ -44,75 +47,126 @@
   ];
 </script>
 
-{#if winState === "won"}
-  <div class="mb-1 rounded-3xl bg-winstate-bg-light p-3 dark:bg-winstate-bg-dark sm:mb-4 sm:p-6">
-    <div class="space-y-1 text-sm sm:space-y-3 sm:text-base">
-      <p class="text-base font-semibold sm:text-lg">
-        {$_("game.foundSecretWord")}
-        <span class="text-xl font-bold text-highlight-light dark:text-highlight-dark sm:text-2xl"
-          >{guesses.length}</span
-        >
-        {$_("game.withGuesses")}! <span class="ml-1 text-2xl">🎉</span>
-      </p>
-      <p>
-        <span class="mr-2">✅</span>
-        {$_("game.secretWordIs")}
-        <span class="mx-1 font-bold">{decodeB64word(secretWord)}</span>
-      </p>
-      <p class="flex items-center">
-        {#if hintsUsed > 0}
-          <span class="mr-2">💡</span>
-          {$_("game.hintsUsedTotal")}
-          <span class="mx-1 font-bold">{hintsUsed}</span>
-          {$_("game.hintsWord")}
+{#if isDone}
+  <div
+    class="mb-3 overflow-hidden rounded-3xl sm:mb-4 {isWin
+      ? 'bg-winstate-bg-light dark:bg-winstate-bg-dark'
+      : 'bg-red-100 dark:bg-red-950'}"
+  >
+    <div class="px-5 pb-5 pt-6 sm:px-8 sm:pb-6 sm:pt-8">
+      <div class="text-center">
+        {#if isWin}
+          <p class="text-sm font-medium text-gray-600 dark:text-gray-300 sm:text-base">
+            {$_("game.foundSecretWord")}
+          </p>
+          <p
+            class="font-Concert mt-1 text-5xl leading-none text-highlight-light dark:text-highlight-dark sm:text-6xl"
+          >
+            {guesses.length}
+          </p>
+          <p class="mt-1 text-sm text-gray-600 dark:text-gray-300 sm:text-base">
+            {$_("game.withGuesses")}
+          </p>
         {:else}
-          <span class="mr-2">🧠</span> {$_("game.noHintsUsed")}
+          <p class="text-xl font-bold sm:text-2xl">{$_("game.gaveUp")}</p>
         {/if}
-      </p>
-      <p>
-        <span class="mr-2">🔍</span>
-        {$_("game.seeNearestWords")}
-        <a href={`/nearby_1k/${secretWord}`} class="font-semibold underline transition-colors duration-200 ease-in-out"
-          >{$_("game.here")}</a
+
+        <div
+          class="mt-5 inline-flex max-w-full flex-col items-center rounded-2xl px-5 py-3 {isWin
+            ? 'bg-white/70 dark:bg-black/25'
+            : 'bg-white/60 dark:bg-black/30'}"
         >
-      </p>
-      <p class="text-sm text-gray-600 dark:text-gray-400">
+          <span class="text-[11px] font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">
+            {isWin ? $_("game.secretWordIs") : $_("game.secretWordWouldHaveBeen")}
+          </span>
+          <span
+            class="mt-0.5 break-all text-xl font-bold sm:text-2xl {isWin
+              ? ''
+              : 'text-red-800 dark:text-red-300'}"
+          >
+            {decodedWord}
+          </span>
+        </div>
+      </div>
+
+      <div class="mt-5 flex flex-wrap items-center justify-center gap-2">
+        <span
+          class="rounded-full px-3 py-1.5 text-sm font-medium {isWin
+            ? 'bg-light-purple-200 dark:bg-dark-purple-200'
+            : 'bg-red-200 dark:bg-red-900'}"
+        >
+          {hintsUsed}
+          {$_("game.hintsWord")}
+        </span>
+        {#if !isWin}
+          <span class="rounded-full bg-red-200 px-3 py-1.5 text-sm font-medium dark:bg-red-900">
+            {guesses.length}
+            {$_("game.usedGuesses")}
+          </span>
+        {/if}
+        <a
+          href={`/nearby_1k/${secretWord}`}
+          class="meta-chip rounded-full px-3 py-1.5 text-sm font-medium {isWin
+            ? 'bg-light-purple-200 dark:bg-dark-purple-200'
+            : 'bg-red-200 dark:bg-red-900'}"
+        >
+          {$_("game.nearestWordsLink")}
+        </a>
+      </div>
+
+      <p class="mt-4 text-center text-xs text-gray-500 dark:text-gray-400 sm:text-sm">
         {$_("game.continueGuessing")}
       </p>
+
+      <div class="mt-5 flex flex-wrap items-center justify-center gap-2">
+        <button
+          class="rounded-full px-5 py-2 text-sm text-white transition-colors duration-200 ease-in-out sm:text-base {isWin
+            ? 'bg-btn-bg-primary-light hover:bg-btn-bg-primary-hover-light dark:bg-btn-bg-secondary-dark dark:hover:bg-btn-bg-primary-hover-dark'
+            : 'bg-red-400 hover:bg-red-500 dark:bg-red-700 dark:hover:bg-red-800'}"
+          on:click={displayCopiedText}
+          use:copy={getClipboardContent(winState, gameNumber, guesses, hintsUsed)}
+        >
+          {$_("game.shareResult")}
+        </button>
+        <button
+          class="rounded-full px-5 py-2 text-sm text-white transition-colors duration-200 ease-in-out sm:text-base {isWin
+            ? 'bg-btn-bg-primary-light hover:bg-btn-bg-primary-hover-light dark:bg-btn-bg-secondary-dark dark:hover:bg-btn-bg-primary-hover-dark'
+            : 'bg-red-400 hover:bg-red-500 dark:bg-red-700 dark:hover:bg-red-800'}"
+          on:click={toggleStats}
+        >
+          {showStats ? $_("stats.hideStats") : $_("stats.showStats")}
+        </button>
+      </div>
+
+      {#if displayCopied}
+        <p
+          in:fade={{ duration: 250 }}
+          out:fade={{ duration: 250 }}
+          class="mt-3 text-center text-xs font-semibold sm:text-sm"
+        >
+          {$_("game.resultCopied")}
+        </p>
+      {/if}
     </div>
-    <div class="mt-2 flex items-center justify-between sm:mt-4">
-      <button
-        class="rounded-full bg-btn-bg-primary-light px-4 py-2 text-sm text-white transition-colors duration-200 ease-in-out hover:bg-btn-bg-primary-hover-light dark:bg-btn-bg-secondary-dark dark:hover:bg-btn-bg-primary-hover-dark sm:text-base"
-        on:click={displayCopiedText}
-        use:copy={getClipboardContent(winState, gameNumber, guesses, hintsUsed)}
-      >
-        {$_("game.shareResult")}
-      </button>
-      <button
-        class="rounded-full bg-btn-bg-primary-light px-4 py-2 text-sm text-white transition-colors duration-200 ease-in-out hover:bg-btn-bg-primary-hover-light dark:bg-btn-bg-secondary-dark dark:hover:bg-btn-bg-primary-hover-dark sm:text-base"
-        on:click={toggleStats}
-      >
-        {showStats ? $_("stats.hideStats") : $_("stats.showStats")}
-      </button>
-    </div>
-    {#if displayCopied}
-      <span in:fade={{ duration: 250 }} out:fade={{ duration: 250 }} class="ml-3 text-xs font-semibold sm:text-sm">
-        {$_("game.resultCopied")}
-      </span>
-    {/if}
+
     {#if showStats}
-      <div transition:slide={{ duration: 300 }} class="mt-4 rounded-xl p-6 py-0">
-        <h3 class="mb-4 text-center text-lg font-bold sm:text-2xl">
+      <div
+        transition:slide={{ duration: 300 }}
+        class="px-5 pb-6 sm:px-8 {isWin ? '' : 'bg-red-200/80 dark:bg-red-900/80'}"
+      >
+        <h3 class="mb-4 text-center text-base font-bold sm:text-lg">
           {$_("game.gameStats")}
         </h3>
-        <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
+        <div class="grid grid-cols-2 gap-3 sm:grid-cols-4">
           {#each statsItems as { label, value, icon }}
             <div
-              class="flex flex-col items-center justify-center rounded-lg bg-light-purple-200 p-4 transition-all hover:scale-105 dark:bg-dark-purple-200"
+              class="flex flex-col items-center justify-center rounded-2xl p-3 {isWin
+                ? 'bg-light-purple-200 dark:bg-dark-purple-200'
+                : 'bg-red-300 dark:bg-red-800'}"
             >
-              <span class="mb-2 text-2xl sm:text-3xl">{icon}</span>
-              <span class="text-center text-xs font-semibold opacity-80 sm:text-sm">{label}</span>
-              <span class="text-lg font-bold sm:text-xl">{value}</span>
+              <span class="mb-1 text-xl sm:text-2xl">{icon}</span>
+              <span class="text-center text-[11px] font-semibold opacity-70 sm:text-xs">{label}</span>
+              <span class="text-base font-bold sm:text-lg">{value}</span>
             </div>
           {/each}
         </div>
@@ -121,83 +175,12 @@
   </div>
 {/if}
 
-{#if winState === "gaveUp"}
-  <div class="mb-1 rounded-3xl bg-red-100 p-6 dark:bg-red-950 sm:mb-4 sm:p-6">
-    <div class="relative overflow-hidden">
-      <h2 class="mb-4 text-lg font-bold sm:text-2xl">
-        <span class="mr-2 text-3xl sm:text-4xl">🏳️</span>
-        {$_("game.gaveUp")}
-        <span class="ml-2 text-3xl sm:text-4xl">🥲</span>
-      </h2>
-    </div>
-    <div class="space-y-1 text-sm sm:space-y-3 sm:text-base">
-      <p>
-        <span class="mr-2">❌</span>
-        {$_("game.secretWordWouldHaveBeen")}
-        <span class="mx-1 font-bold text-red-800 dark:text-red-300">{decodeB64word(secretWord)}</span>
-      </p>
-      <p class="flex items-center">
-        <span class="mr-2">🔢</span>
-        {$_("game.guessesUsedTotal")}
-        <span class="mx-1 font-bold">{guesses.length}</span>
-        {$_("game.usedGuesses")}
-      </p>
-      <p class="flex items-center">
-        <span class="mr-2">💡</span>
-        {$_("game.hintsUsedTotal")}
-        <span class="mx-1 font-bold">{hintsUsed}</span>
-        {$_("game.hintsWord")}
-      </p>
-      <p>
-        <span class="mr-2">🔍</span>
-        {$_("game.seeNearestWords")}
-        <a
-          href={`/nearby_1k/${secretWord}`}
-          class="font-semibold underline transition-colors duration-200 ease-in-out hover:text-red-600 dark:hover:text-red-400"
-          >{$_("game.here")}</a
-        >
-      </p>
-      <p class="text-sm text-gray-600 dark:text-gray-400">
-        {$_("game.continueGuessing")}
-      </p>
-    </div>
-    <div class="mt-4 flex items-center justify-between">
-      <button
-        class="rounded-full bg-red-400 px-4 py-2 text-sm text-white transition-colors duration-200 ease-in-out hover:bg-red-500 dark:bg-red-700 dark:hover:bg-red-800 sm:text-base"
-        on:click={displayCopiedText}
-        use:copy={getClipboardContent(winState, gameNumber, guesses, hintsUsed)}
-      >
-        {$_("game.shareResult")}
-      </button>
-      <button
-        class="rounded-full bg-red-400 px-4 py-2 text-sm text-white transition-colors duration-200 ease-in-out hover:bg-red-500 dark:bg-red-700 dark:hover:bg-red-800 sm:text-base"
-        on:click={toggleStats}
-      >
-        {showStats ? $_("stats.hideStats") : $_("stats.showStats")}
-      </button>
-    </div>
-    {#if displayCopied}
-      <span in:fade={{ duration: 250 }} out:fade={{ duration: 250 }} class="ml-3 text-xs font-semibold sm:text-sm">
-        {$_("game.resultCopied")}
-      </span>
-    {/if}
-    {#if showStats}
-      <div transition:slide={{ duration: 300 }} class="mt-4 rounded-xl bg-red-200 p-6 py-4 dark:bg-red-900">
-        <h3 class="mb-4 text-center text-lg font-bold sm:text-2xl">
-          {$_("game.gameStats")}
-        </h3>
-        <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
-          {#each statsItems as { label, value, icon }}
-            <div
-              class="flex flex-col items-center justify-center rounded-lg bg-red-300 p-4 transition-all hover:scale-105 dark:bg-red-800"
-            >
-              <span class="mb-2 text-2xl sm:text-3xl">{icon}</span>
-              <span class="text-center text-xs font-semibold opacity-80 sm:text-sm">{label}</span>
-              <span class="text-lg font-bold sm:text-xl">{value}</span>
-            </div>
-          {/each}
-        </div>
-      </div>
-    {/if}
-  </div>
-{/if}
+<style>
+  a.meta-chip {
+    color: inherit;
+    text-decoration: none;
+  }
+  a.meta-chip:hover {
+    opacity: 0.8;
+  }
+</style>
