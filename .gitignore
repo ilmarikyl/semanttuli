@@ -10,3 +10,5 @@ node_modules
 !.env.deploy.en
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+
+.agents/
