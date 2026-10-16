@@ -16,3 +16,8 @@ export function getNextUtc3Midnight(now = Date.now()): Date {
 	const day = getUtc3UnixDay(now);
 	return new Date((day + 1) * 86_400_000 - UTC3_OFFSET_MS);
 }
+
+/** A day's results stay through the next day, then expire at the following midnight. */
+export function expiresAtForDay(dayId: number): Date {
+	return new Date((dayId + 2) * 86_400_000 - UTC3_OFFSET_MS);
+}

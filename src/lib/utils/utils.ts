@@ -13,12 +13,17 @@ export async function initializeSecretWords() {
 	secretWordsEncoded = module.secretWordsEncoded;
 }
 
+export function getGameNumberForUtc3Day(dayId: number): number {
+	const startDay = START_DAYS[currentLanguage as keyof typeof START_DAYS];
+	const length = secretWordsEncoded.length;
+	if (!length) return 0;
+	return (((dayId - startDay) % length) + length) % length;
+}
+
 export function getGameNumber(): number {
 	const now = Date.now() + 10800000; // add 10800000 for UTC+3
 	const today = Math.floor(now / 86400000);
-	const startDay = START_DAYS[currentLanguage as keyof typeof START_DAYS];
-	const puzzleNumber = (today - startDay) % secretWordsEncoded.length;
-	return puzzleNumber;
+	return getGameNumberForUtc3Day(today);
 }
 
 export function getSecretWord(puzzleNumber: number): string {

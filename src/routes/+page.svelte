@@ -5,7 +5,7 @@
 	import { fetchInitialGameData } from '$lib/utils/gameLogic';
 	import { saveGame } from '$lib/utils/localStorage';
 	import { gameState, loadGameState, toggleGameInfoCollapsed } from '$stores/gameState';
-	import { GameInfo, GameControls, GuessForm, Guesses, WinState, Leaderboard } from '$components';
+	import { GameInfo, GameControls, GuessForm, Guesses, WinState, Leaderboard, YesterdayCelebration } from '$components';
 	import { openModal } from '$stores/infoModal';
 
 	const gameNumber = getGameNumber();
@@ -46,6 +46,7 @@
 	});
 </script>
 
+<YesterdayCelebration />
 <GameInfo />
 
 {#if showConfetti}

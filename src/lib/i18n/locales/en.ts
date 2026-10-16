@@ -52,6 +52,9 @@ export default {
 	},
 	leaderboard: {
 		title: "Today's leaderboard",
+		yesterdayTitle: "Yesterday's leaderboard",
+		yesterday: 'Yesterday',
+		today: 'Today',
 		place: 'Place',
 		name: 'Name',
 		guesses: 'Guesses',
@@ -62,6 +65,7 @@ export default {
 		giveUps: 'Give-ups',
 		you: 'you',
 		empty: 'No results yet. You could be first.',
+		yesterdayEmpty: 'No results from yesterday.',
 		namePlaceholder: 'Your name',
 		postNamed: 'Post with name',
 		postAnonymous: 'Post anonymously',
@@ -76,6 +80,12 @@ export default {
 		postError: 'Could not post your result. Try again.',
 		anonymous: 'Anonymous',
 		close: 'Close',
+		celebration: {
+			title: "Yesterday's place",
+			body: 'You placed #{place} yesterday!',
+			detail: '{name} · {guesses} guesses, {hints} hints',
+			seeBoard: 'Show leaderboard',
+		},
 	},
 	errors: {
 		wordNotRecognized: 'I don\'t recognize the word "{word}" 🥲',
@@ -127,7 +137,7 @@ export default {
 				'To better protect your sensitive information, we provide this privacy policy that explains our data practices, particularly regarding what type and how much information may be collected from you when using the service (Meaningle application or website (meaningle.fly.dev)). These data practices are the same regardless of the device used.',
 			commitment: 'The site does not require an account and does not keep a profile of you.',
 			collectedData:
-				"Information about users' IP addresses, time spent on games, and where users click is temporarily stored. This information is never sold or shared with anyone else. The data is used to study the interaction between users and the service. The purpose of this is to improve the user interface. If you choose to post to the daily leaderboard, the name you enter (or an anonymous label), your guess count, hint count, and outcome are stored until the following day and then deleted. Posting is optional.",
+				"Information about users' IP addresses, time spent on games, and where users click is temporarily stored. This information is never sold or shared with anyone else. The data is used to study the interaction between users and the service. The purpose of this is to improve the user interface. If you choose to post to the daily leaderboard, the name you enter (or an anonymous label), your guess count, hint count, and outcome are stored through the following day and then deleted. Posting is optional.",
 			logData:
 				'We collect certain log information whenever you use our website. The information we collect may include your IP address, device name and version, and the time when you use the site. These and other statistics are used to help improve the user experience.',
 			cookies:

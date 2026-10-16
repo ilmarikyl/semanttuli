@@ -1,5 +1,5 @@
 import { json, type RequestHandler } from '@sveltejs/kit';
-import { addResult, listTodayResults } from '$lib/leaderboard/store';
+import { addResult, listBoards } from '$lib/leaderboard/store';
 import type { AddResultError } from '$lib/leaderboard/types';
 
 const errorStatus: Record<AddResultError, number> = {
@@ -12,8 +12,8 @@ const errorStatus: Record<AddResultError, number> = {
 
 export const GET: RequestHandler = async () => {
 	try {
-		const results = await listTodayResults();
-		return json({ results });
+		const { today, yesterday } = await listBoards();
+		return json({ today, yesterday, results: today });
 	} catch (error) {
 		console.error(error);
 		return json({ error: 'Server error' }, { status: 500 });

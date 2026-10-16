@@ -2,7 +2,7 @@ import { MongoServerError } from 'mongodb';
 import { currentLanguage } from '$lib/config/language';
 import { getLeaderboardCollection } from '$lib/services/dbService';
 import { MAX_HINTS } from '$lib/utils/constants';
-import { DAILY_RESULT_CAP, getNextUtc3Midnight, getUtc3UnixDay } from './constants';
+import { DAILY_RESULT_CAP, expiresAtForDay, getUtc3UnixDay } from './constants';
 import { parseResultName } from './name';
 import { assignPlaces } from './ranking';
 import type { AddResultInput, AddResultResponse, LeaderboardDoc, LeaderboardRow } from './types';
@@ -28,9 +28,12 @@ async function collection() {
 	return col;
 }
 
-async function dropOtherDays(dayId: number) {
+async function retainRecentDays(today: number) {
+	const yesterday = today - 1;
 	const col = await collection();
-	await col.deleteMany({ dayId: { $ne: dayId } });
+	await col.deleteMany({ dayId: { $lt: yesterday } });
+	await col.updateMany({ dayId: today }, { $set: { expiresAt: expiresAtForDay(today) } });
+	await col.updateMany({ dayId: yesterday }, { $set: { expiresAt: expiresAtForDay(yesterday) } });
 }
 
 function isValidResult(input: AddResultInput): boolean {
@@ -67,9 +70,7 @@ function toRow(doc: {
 	};
 }
 
-export async function listTodayResults(): Promise<LeaderboardRow[]> {
-	const dayId = getUtc3UnixDay();
-	await dropOtherDays(dayId);
+async function rowsForDay(dayId: number): Promise<LeaderboardRow[]> {
 	const col = await collection();
 	const docs = await col.find({ dayId }).toArray();
 	return assignPlaces(
@@ -86,6 +87,17 @@ export async function listTodayResults(): Promise<LeaderboardRow[]> {
 	).map(toRow);
 }
 
+export async function listBoards(): Promise<{ today: LeaderboardRow[]; yesterday: LeaderboardRow[] }> {
+	const today = getUtc3UnixDay();
+	await retainRecentDays(today);
+	const [todayRows, yesterdayRows] = await Promise.all([rowsForDay(today), rowsForDay(today - 1)]);
+	return { today: todayRows, yesterday: yesterdayRows };
+}
+
+export async function listTodayResults(): Promise<LeaderboardRow[]> {
+	return (await listBoards()).today;
+}
+
 export async function addResult(input: AddResultInput): Promise<AddResultResponse> {
 	if (!isValidResult(input)) {
 		return { ok: false, error: 'invalid-result' };
@@ -96,7 +108,7 @@ export async function addResult(input: AddResultInput): Promise<AddResultRespons
 	if (parsed.kind === 'reserved') return { ok: false, error: 'reserved-name' };
 
 	const dayId = getUtc3UnixDay();
-	await dropOtherDays(dayId);
+	await retainRecentDays(dayId);
 	const col = await collection();
 
 	const count = await col.countDocuments({ dayId });
@@ -115,7 +127,7 @@ export async function addResult(input: AddResultInput): Promise<AddResultRespons
 		bestUnhintedRank: input.bestUnhintedRank,
 		bestUnhintedSimilarity: input.bestUnhintedSimilarity,
 		submittedAt,
-		expiresAt: getNextUtc3Midnight(),
+		expiresAt: expiresAtForDay(dayId),
 	};
 	if (parsed.kind === 'named') {
 		doc.nameKey = parsed.nameKey;
@@ -128,7 +140,7 @@ export async function addResult(input: AddResultInput): Promise<AddResultRespons
 			await col.deleteOne({ _id: inserted.insertedId });
 			return { ok: false, error: 'cap-reached' };
 		}
-		const rows = await listTodayResults();
+		const rows = await rowsForDay(dayId);
 		const row = rows.find((r) => r.id === inserted.insertedId.toString());
 		return {
 			ok: true,

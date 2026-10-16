@@ -1,11 +1,13 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { get } from 'svelte/store';
 	import { slide } from 'svelte/transition';
 	import { _ } from 'svelte-i18n';
-	import { DAILY_RESULT_CAP } from '$lib/leaderboard/constants';
+	import { DAILY_RESULT_CAP, getUtc3UnixDay } from '$lib/leaderboard/constants';
 	import { bestUnhintedCloseness } from '$lib/leaderboard/ranking';
-	import { getPostedResult, savePostedResult } from '$lib/leaderboard/posted';
-	import { leaderboardExpandTick } from '$stores/leaderboardModal';
+	import { findPostedForDay, getPostedResult, savePostedResult } from '$lib/leaderboard/posted';
+	import { getGameNumberForUtc3Day } from '$lib/utils/utils';
+	import { leaderboardDay, type LeaderboardDay } from '$stores/leaderboardModal';
 	import type { LeaderboardRow } from '$lib/leaderboard/types';
 	import type { Guess, WinState } from '$lib/types';
 
@@ -16,6 +18,7 @@
 	export let collapsible = true;
 	export let anchorId = '';
 	export let titleId = '';
+	export let showDayTabs = false;
 
 	const winGrid =
 		'grid grid-cols-[2rem_minmax(0,1fr)_4rem_3.6rem] gap-x-1.5 sm:grid-cols-[2.25rem_minmax(0,1fr)_auto_auto] sm:gap-x-3';
@@ -24,8 +27,11 @@
 	const colHeader =
 		'text-[9px] font-semibold uppercase leading-tight tracking-wide text-gray-500 dark:text-gray-400 sm:text-[11px] sm:tracking-wider';
 
-	let rows: LeaderboardRow[] = [];
+	let todayRows: LeaderboardRow[] = [];
+	let yesterdayRows: LeaderboardRow[] = [];
+	let day: LeaderboardDay = 'today';
 	let postedId: string | null = null;
+	let yesterdayPostedId: string | null = null;
 	let showForm = true;
 	let expanded = true;
 	let nameInput = '';
@@ -33,17 +39,19 @@
 	let loadError = '';
 	let postError = '';
 
-	let seenExpandTick = 0;
-
+	$: rows = day === 'yesterday' ? yesterdayRows : todayRows;
 	$: closeness = bestUnhintedCloseness(guesses);
 	$: wins = rows.filter((row) => row.outcome === 'won');
 	$: giveUps = rows.filter((row) => row.outcome === 'gaveUp');
-	$: boardFull = rows.length >= DAILY_RESULT_CAP && !postedId;
+	$: boardFull = todayRows.length >= DAILY_RESULT_CAP && !postedId;
 	$: canPost = winState === 'won' || winState === 'gaveUp';
+	$: viewingToday = day === 'today';
+	$: activePostedId = viewingToday ? postedId : yesterdayPostedId;
 	$: shown = !collapsible || expanded;
-	$: if ($leaderboardExpandTick !== seenExpandTick) {
-		seenExpandTick = $leaderboardExpandTick;
-		if (seenExpandTick > 0) expanded = true;
+
+	function selectDay(next: LeaderboardDay) {
+		day = next;
+		leaderboardDay.set(next);
 	}
 
 	function toggleExpanded() {
@@ -74,8 +82,13 @@
 				loadError = $_('leaderboard.loadError');
 				return;
 			}
-			const data = (await response.json()) as { results: LeaderboardRow[] };
-			rows = data.results ?? [];
+			const data = (await response.json()) as {
+				today?: LeaderboardRow[];
+				yesterday?: LeaderboardRow[];
+				results?: LeaderboardRow[];
+			};
+			todayRows = data.today ?? data.results ?? [];
+			yesterdayRows = data.yesterday ?? [];
 		} catch {
 			loadError = $_('leaderboard.loadError');
 		}
@@ -104,7 +117,12 @@
 				postError = errorFromCode(data.error);
 				return;
 			}
-			savePostedResult(gameNumber, { id: data.id, name: data.name });
+			savePostedResult(gameNumber, {
+				id: data.id,
+				name: data.name,
+				outcome: winState,
+				dayId: getUtc3UnixDay(),
+			});
 			postedId = data.id;
 			showForm = false;
 			await loadBoard();
@@ -116,6 +134,12 @@
 	}
 
 	onMount(() => {
+		if (showDayTabs) {
+			day = get(leaderboardDay);
+			const yesterday = getUtc3UnixDay() - 1;
+			yesterdayPostedId =
+				findPostedForDay(Object.entries(localStorage), yesterday, getGameNumberForUtc3Day(yesterday))?.id ?? null;
+		}
 		const posted = getPostedResult(gameNumber);
 		if (posted) {
 			postedId = posted.id;
@@ -137,7 +161,9 @@
 				aria-expanded={expanded}
 				on:click={toggleExpanded}
 			>
-				<h2 class="text-lg font-bold sm:text-xl">{$_('leaderboard.title')}</h2>
+				<h2 class="text-lg font-bold sm:text-xl">
+					{showDayTabs && !viewingToday ? $_('leaderboard.yesterdayTitle') : $_('leaderboard.title')}
+				</h2>
 				<svg
 					class="h-6 w-6 shrink-0 text-gray-500 transition-transform duration-300 ease-in-out dark:text-gray-400"
 					class:rotate-180={expanded}
@@ -155,23 +181,50 @@
 			</button>
 		{:else}
 			<h2 id={titleId || undefined} class="px-10 text-center text-lg font-bold sm:text-xl">
-				{$_('leaderboard.title')}
+				{showDayTabs && !viewingToday ? $_('leaderboard.yesterdayTitle') : $_('leaderboard.title')}
 			</h2>
 		{/if}
 
 		{#if shown}
 			<div transition:slide={{ duration: 250 }}>
-				{#if postedId}
+				{#if showDayTabs}
+					<div class="mx-auto mt-3 flex max-w-xs rounded-full bg-black/10 p-1 dark:bg-white/10" role="tablist">
+						<button
+							type="button"
+							role="tab"
+							class="flex-1 rounded-full px-3 py-1.5 text-sm font-semibold transition-colors {!viewingToday
+								? 'bg-white text-text-light shadow-sm dark:bg-white/15 dark:text-white'
+								: 'text-gray-600 dark:text-gray-300'}"
+							aria-selected={!viewingToday}
+							on:click={() => selectDay('yesterday')}
+						>
+							{$_('leaderboard.yesterday')}
+						</button>
+						<button
+							type="button"
+							role="tab"
+							class="flex-1 rounded-full px-3 py-1.5 text-sm font-semibold transition-colors {viewingToday
+								? 'bg-white text-text-light shadow-sm dark:bg-white/15 dark:text-white'
+								: 'text-gray-600 dark:text-gray-300'}"
+							aria-selected={viewingToday}
+							on:click={() => selectDay('today')}
+						>
+							{$_('leaderboard.today')}
+						</button>
+					</div>
+				{/if}
+
+				{#if viewingToday && postedId}
 					<p class="mt-1 text-center text-xs text-gray-500 dark:text-gray-400 sm:text-sm">
 						{$_('leaderboard.posted')}
 					</p>
-				{:else if boardFull}
+				{:else if viewingToday && boardFull}
 					<p class="mt-1 text-center text-xs text-gray-500 dark:text-gray-400 sm:text-sm">
 						{$_('leaderboard.capReached')}
 					</p>
 				{/if}
 
-				{#if canPost && !postedId && !boardFull && showForm}
+				{#if viewingToday && canPost && !postedId && !boardFull && showForm}
 					<div class="mt-4 space-y-3">
 						<input
 							class="w-full rounded-full bg-input-bg-light px-4 py-2.5 text-sm dark:bg-input-bg-dark sm:text-base"
@@ -209,7 +262,7 @@
 							<p class="text-center text-sm font-semibold text-red-500">{postError}</p>
 						{/if}
 					</div>
-				{:else if canPost && !postedId && !boardFull}
+				{:else if viewingToday && canPost && !postedId && !boardFull}
 					<div class="mt-4 text-center">
 						<button
 							class="rounded-full bg-btn-bg-primary-light px-4 py-2 text-sm text-white transition-colors duration-200 ease-in-out hover:bg-btn-bg-primary-hover-light dark:bg-btn-bg-secondary-dark dark:hover:bg-btn-bg-primary-hover-dark sm:text-base"
@@ -223,7 +276,9 @@
 				{#if loadError}
 					<p class="mt-5 text-center text-sm font-semibold text-red-500">{loadError}</p>
 				{:else if rows.length === 0}
-					<p class="mt-6 text-center text-sm text-gray-500 dark:text-gray-400">{$_('leaderboard.empty')}</p>
+					<p class="mt-6 text-center text-sm text-gray-500 dark:text-gray-400">
+						{viewingToday ? $_('leaderboard.empty') : $_('leaderboard.yesterdayEmpty')}
+					</p>
 				{:else}
 					<div class="mt-4 max-h-80 overflow-y-auto overscroll-contain pr-1">
 						{#if wins.length > 0}
@@ -237,14 +292,14 @@
 								{#each wins as row}
 									<li
 										class="items-center rounded-xl px-2 py-1 sm:px-3 sm:py-1.5 {winGrid} {row.id ===
-										postedId
+										activePostedId
 											? 'bg-light-purple-300/80 dark:bg-dark-purple-200'
 											: 'bg-white/45 dark:bg-black/20'}"
 									>
 										<span class="font-Concert text-sm tabular-nums sm:text-base">{row.place}</span>
 										<span class="flex min-w-0 items-baseline gap-1 sm:gap-1.5">
 											<span class="min-w-0 truncate text-sm font-semibold">{displayName(row)}</span>
-											{#if row.id === postedId}
+											{#if row.id === activePostedId}
 												<span
 													class="shrink-0 text-[9px] font-semibold uppercase tracking-wide text-dark-purple-200 dark:text-highlight-dark sm:text-[10px]"
 													>{$_('leaderboard.you')}</span
@@ -286,7 +341,7 @@
 								{#each giveUps as row}
 									<li
 										class="items-center rounded-xl px-2 py-1 sm:px-3 sm:py-1.5 {giveUpGrid} {row.id ===
-										postedId
+										activePostedId
 											? 'bg-light-purple-300/80 dark:bg-dark-purple-200'
 											: 'bg-white/45 dark:bg-black/20'}"
 									>
@@ -296,7 +351,7 @@
 										>
 										<span class="flex min-w-0 items-baseline gap-1 sm:gap-1.5">
 											<span class="min-w-0 truncate text-sm font-medium">{displayName(row)}</span>
-											{#if row.id === postedId}
+											{#if row.id === activePostedId}
 												<span
 													class="shrink-0 text-[9px] font-semibold uppercase tracking-wide text-dark-purple-200 dark:text-highlight-dark sm:text-[10px]"
 													>{$_('leaderboard.you')}</span

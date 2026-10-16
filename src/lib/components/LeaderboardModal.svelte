@@ -53,6 +53,7 @@
 				{hintsUsed}
 				{gameNumber}
 				collapsible={false}
+				showDayTabs
 				titleId="leaderboard-modal-title"
 			/>
 		</div>

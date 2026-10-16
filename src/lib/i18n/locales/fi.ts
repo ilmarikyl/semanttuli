@@ -52,6 +52,9 @@ export default {
 	},
 	leaderboard: {
 		title: 'Päivän tulostaulu',
+		yesterdayTitle: 'Eilisen tulostaulu',
+		yesterday: 'Eilen',
+		today: 'Tänään',
 		place: 'Sija',
 		name: 'Nimi',
 		guesses: 'Arvauksia',
@@ -62,6 +65,7 @@ export default {
 		giveUps: 'Luovuttaneet',
 		you: 'sinä',
 		empty: 'Ei tuloksia vielä. Voit olla ensimmäinen.',
+		yesterdayEmpty: 'Ei eilisen tuloksia.',
 		namePlaceholder: 'Nimesi',
 		postNamed: 'Lisää nimellä',
 		postAnonymous: 'Lisää nimettömänä',
@@ -76,6 +80,12 @@ export default {
 		postError: 'Tulosta ei voitu lisätä. Yritä uudelleen.',
 		anonymous: 'Nimetön',
 		close: 'Sulje',
+		celebration: {
+			title: 'Eilisen sijoitus',
+			body: 'Sijoituit eilen sijalle {place}!',
+			detail: '{name} · {guesses} arvausta, {hints} vinkkiä',
+			seeBoard: 'Näytä tulostaulu',
+		},
 	},
 	errors: {
 		wordNotRecognized: 'En tunnista sanaa "{word}" 🥲',
@@ -127,7 +137,7 @@ export default {
 				'Suojataksemme arkaluontoisia tietojasi paremmin, tarjoamme tämän tietosuojaselosteen, jossa selitetään tietokäytäntöjämme erityisesti sen osalta, minkä tyyppisiä ja minkä verran tietoja sinulta saatetaan kerätä käyttämällä palvelua (Semanttuli-sovellus tai verkkosivusto (semanttuli.fly.dev)). Tietokäytännöt ovat samat käytetystä laitteesta riippumatta.',
 			commitment: 'Sivusto ei vaadi tiliä eikä pidä sinusta profiilia.',
 			collectedData:
-				'Tiedot käyttäjien IP-osoitteista, peleihin käytetystä ajasta sekä siitä, mihin käyttäjien klikkaukset kohdistuvat säilytetään väliaikaisesti. Näitä tietoja ei koskaan myydä tai jaeta kenenkään muun kanssa. Tietoja käytetään käyttäjien ja palvelun välisen interaktion tutkimiseen. Tämän tarkoituksena on käyttöliittymän parantaminen. Jos lisäät tuloksesi päivän tulostauluun, antamasi nimi (tai nimetön merkintä), arvausmäärä, vinkkimäärä ja tulos säilytetään seuraavaan päivään ja sitten poistetaan. Lisääminen on vapaaehtoista.',
+				'Tiedot käyttäjien IP-osoitteista, peleihin käytetystä ajasta sekä siitä, mihin käyttäjien klikkaukset kohdistuvat säilytetään väliaikaisesti. Näitä tietoja ei koskaan myydä tai jaeta kenenkään muun kanssa. Tietoja käytetään käyttäjien ja palvelun välisen interaktion tutkimiseen. Tämän tarkoituksena on käyttöliittymän parantaminen. Jos lisäät tuloksesi päivän tulostauluun, antamasi nimi (tai nimetön merkintä), arvausmäärä, vinkkimäärä ja tulos säilytetään seuraavan päivän loppuun ja sitten poistetaan. Lisääminen on vapaaehtoista.',
 			logData:
 				'Keräämme tiettyjä lokitietoja aina, kun käytät verkkosivustoamme. Keräämämme tiedot voivat sisältää IP-osoitteesi, laitteen nimen ja version sekä ajan, jolloin käytät sivustoa. Näitä ja muita tilastoja käytetään apuna käyttökokemuksen parantamisessa.',
 			cookies:

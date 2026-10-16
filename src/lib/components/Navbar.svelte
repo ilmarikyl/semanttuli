@@ -1,27 +1,16 @@
 <script lang="ts">
-  import { onMount, tick } from "svelte";
-  import { get } from "svelte/store";
+  import { onMount } from "svelte";
   import { theme, isDarkMode } from "$stores/theme";
   import { IconButton, LeaderboardModal, Modal } from "$components";
   import { openModal } from "$stores/infoModal";
-  import { expandPageLeaderboard, openLeaderboard } from "$stores/leaderboardModal";
-  import { gameState } from "$stores/gameState";
+  import { openLeaderboard } from "$stores/leaderboardModal";
   import { _ } from "svelte-i18n";
 
   const toggleTheme = () => {
     theme.update((currentTheme) => (currentTheme === "dark" ? "light" : "dark"));
   };
 
-  async function showLeaderboard() {
-    const { winState } = get(gameState);
-    const finished = winState === "won" || winState === "gaveUp";
-    const inline = document.getElementById("daily-leaderboard");
-    if (finished && inline) {
-      expandPageLeaderboard();
-      await tick();
-      inline.scrollIntoView({ behavior: "smooth", block: "start" });
-      return;
-    }
+  function showLeaderboard() {
     openLeaderboard();
   }
 
