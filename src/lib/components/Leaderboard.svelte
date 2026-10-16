@@ -38,6 +38,7 @@
 	let pending = false;
 	let loadError = '';
 	let postError = '';
+	let scoringOpen = false;
 
 	$: rows = day === 'yesterday' ? yesterdayRows : todayRows;
 	$: closeness = bestUnhintedCloseness(guesses);
@@ -375,6 +376,33 @@
 						{/if}
 					</div>
 				{/if}
+
+				<div class="mt-5">
+					<div class="h-px bg-gray-300 dark:bg-white/15"></div>
+					<button
+						type="button"
+						class="mx-auto mt-3 block text-sm text-gray-600 underline decoration-gray-400 underline-offset-2 dark:text-gray-300"
+						aria-expanded={scoringOpen}
+						on:click={() => (scoringOpen = !scoringOpen)}
+					>
+						{$_('leaderboard.scoringToggle')}
+					</button>
+					{#if scoringOpen}
+						<div class="mt-3 space-y-2 text-left text-sm leading-relaxed text-gray-600 dark:text-gray-300" transition:slide={{ duration: 200 }}>
+							<p>{$_('leaderboard.scoring1')}</p>
+							<p>{$_('leaderboard.scoring2')}</p>
+							<ul class="list-disc space-y-0.5 pl-5">
+								<li>{$_('leaderboard.scoringJumps.0')}</li>
+								<li>{$_('leaderboard.scoringJumps.1')}</li>
+								<li>{$_('leaderboard.scoringJumps.2')}</li>
+								<li>{$_('leaderboard.scoringJumps.3')}</li>
+								<li>{$_('leaderboard.scoringJumps.4')}</li>
+							</ul>
+							<p>{$_('leaderboard.scoring2b')}</p>
+							<p>{$_('leaderboard.scoring3')}</p>
+						</div>
+					{/if}
+				</div>
 			</div>
 		{/if}
 	</div>

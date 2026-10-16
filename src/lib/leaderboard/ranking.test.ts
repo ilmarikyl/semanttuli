@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import type { Guess } from '$lib/types';
-import { assignPlaces, bestUnhintedCloseness, compareResults, type SortableResult } from './ranking';
+import { assignPlaces, bestUnhintedCloseness, compareResults, effectiveGuesses, type SortableResult } from './ranking';
 
 function guess(partial: Partial<Guess> & Pick<Guess, 'rank' | 'similarityScore'>): Guess {
 	return {
@@ -54,25 +54,40 @@ describe('compareResults', () => {
 		expect(compareResults(giveUp, win)).toBeGreaterThan(0);
 	});
 
-	it('ranks Wins by fewer guesses, then fewer hints, then earlier Result', () => {
+	it('weights a large Hint as several guesses', () => {
+		expect(effectiveGuesses(result({ outcome: 'won', guessCount: 36, hintCount: 0 }))).toBe(36);
+		expect(effectiveGuesses(result({ outcome: 'won', guessCount: 22, hintCount: 1, bestUnhintedRank: 995 }))).toBe(22);
+		expect(effectiveGuesses(result({ outcome: 'won', guessCount: 8, hintCount: 4, bestUnhintedRank: 960 }))).toBe(9);
+		expect(effectiveGuesses(result({ outcome: 'won', guessCount: 21, hintCount: 6, bestUnhintedRank: 700 }))).toBe(34);
+		expect(effectiveGuesses(result({ outcome: 'won', guessCount: 18, hintCount: 12 }))).toBe(62);
+	});
+
+	it('ranks Wins by weighted guesses, then fewer hints, then earlier Result', () => {
 		expect(
 			compareResults(
-				result({ outcome: 'won', guessCount: 12, hintCount: 2, submittedAt: 2000 }),
-				result({ outcome: 'won', guessCount: 20, hintCount: 0, submittedAt: 1000 }),
+				result({ outcome: 'won', guessCount: 18, hintCount: 12, submittedAt: 1000 }),
+				result({ outcome: 'won', guessCount: 36, hintCount: 0, submittedAt: 2000 }),
+			),
+		).toBeGreaterThan(0);
+
+		expect(
+			compareResults(
+				result({ outcome: 'won', guessCount: 22, hintCount: 1, bestUnhintedRank: 995, submittedAt: 2000 }),
+				result({ outcome: 'won', guessCount: 30, hintCount: 0, submittedAt: 1000 }),
 			),
 		).toBeLessThan(0);
 
 		expect(
 			compareResults(
-				result({ outcome: 'won', guessCount: 12, hintCount: 0, submittedAt: 2000 }),
-				result({ outcome: 'won', guessCount: 12, hintCount: 3, submittedAt: 1000 }),
+				result({ outcome: 'won', guessCount: 12, hintCount: 2, submittedAt: 1000 }),
+				result({ outcome: 'won', guessCount: 20, hintCount: 0, submittedAt: 2000 }),
 			),
-		).toBeLessThan(0);
+		).toBeGreaterThan(0);
 
 		expect(
 			compareResults(
-				result({ outcome: 'won', guessCount: 12, hintCount: 1, submittedAt: 1000 }),
-				result({ outcome: 'won', guessCount: 12, hintCount: 1, submittedAt: 2000 }),
+				result({ outcome: 'won', guessCount: 12, hintCount: 1, bestUnhintedRank: 995, submittedAt: 1000 }),
+				result({ outcome: 'won', guessCount: 12, hintCount: 1, bestUnhintedRank: 995, submittedAt: 2000 }),
 			),
 		).toBeLessThan(0);
 	});

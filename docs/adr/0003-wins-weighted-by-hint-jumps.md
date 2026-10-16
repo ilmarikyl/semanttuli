@@ -1,0 +1,3 @@
+# Wins are ordered by how far each Hint jumped
+
+A Hint can move a player hundreds of Ranks closer to the Secret word, so ordering Wins by raw guess count let a short Hint-heavy game finish above a longer game with no Hints. Wins now order by a weighted guess count: replay the hint ladder from the best typed Rank for each Hint used, and charge a large jump as several guesses (a 100-step Hint as five, down to a 1-step Hint as the one guess it already is). Equal weights break by fewer Hints, then earlier Result. A flat per-Hint weight was rejected because a last-step Hint is not the same help as the jump into the nearest thousand. Give-ups stay below every Win and still ignore Hints.

@@ -80,6 +80,18 @@ export default {
 		postError: 'Tulosta ei voitu lisätä. Yritä uudelleen.',
 		anonymous: 'Nimetön',
 		close: 'Sulje',
+		scoringToggle: 'Miten pisteytys toimii?',
+		scoring1: 'Pelkkä pienin arvausmäärä ei ratkaise sijaa. Vinkin käyttämisestä voi olla huomattavan suuri apu.',
+		scoring2: 'Jokainen vinkki lasketaan vähintään yhdeksi arvaukseksi. Isompi loikka lasketaan useammaksi:',
+		scoringJumps: [
+			'sadan askeleen vinkki viideksi arvaukseksi',
+			'50 askeleen vinkki neljäksi',
+			'35 askeleen vinkki kolmeksi',
+			'10–25 askeleen vinkki kahdeksi',
+			'1 tai 5 askeleen vinkki yhdeksi',
+		],
+		scoring2b: 'Loikan koko riippuu parhaasta itse kirjoittamastasi arvauksesta.',
+		scoring3: 'Tasatilanteessa vähemmän vinkkejä käyttänyt voittaa, sitten aiemmin lisätty tulos.',
 		celebration: {
 			title: 'Eilisen sijoitus',
 			body: 'Sijoituit eilen sijalle {place}!',

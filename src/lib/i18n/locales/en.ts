@@ -80,6 +80,19 @@ export default {
 		postError: 'Could not post your result. Try again.',
 		anonymous: 'Anonymous',
 		close: 'Close',
+		scoringToggle: 'How does scoring work?',
+		scoring1:
+			'The fewest guesses do not decide place on their own. A hint can jump much closer to the secret word than one typed guess.',
+		scoring2: 'Every hint counts as at least one guess. A bigger jump counts as more:',
+		scoringJumps: [
+			'a 100-step hint as five guesses',
+			'a 50-step hint as four',
+			'a 35-step hint as three',
+			'a 10–25-step hint as two',
+			'a 1- or 5-step hint as one',
+		],
+		scoring2b: 'The size of the jump depends on your best typed guess.',
+		scoring3: 'If the weighted counts are equal, fewer hints come first, then the earlier result.',
 		celebration: {
 			title: "Yesterday's place",
 			body: 'You placed #{place} yesterday!',
