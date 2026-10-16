@@ -2,6 +2,7 @@ export default {
 	navbar: {
 		title: 'Semanttuli',
 		openInfo: 'Avaa ohje',
+		openLeaderboard: 'Avaa tulostaulu',
 		toggleTheme: {
 			light: 'Vaihda vaalea teema',
 			dark: 'Vaihda tumma teema',
@@ -55,6 +56,7 @@ export default {
 		name: 'Nimi',
 		guesses: 'Arvauksia',
 		hints: 'Vinkkejä',
+		guessesAndHints: 'Arvauksia/Vinkkejä',
 		closest: 'Paras arvaus',
 		notWarm: 'Ei polta',
 		giveUps: 'Luovuttaneet',
@@ -73,6 +75,7 @@ export default {
 		loadError: 'Tulostaulua ei voitu ladata.',
 		postError: 'Tulosta ei voitu lisätä. Yritä uudelleen.',
 		anonymous: 'Nimetön',
+		close: 'Sulje',
 	},
 	errors: {
 		wordNotRecognized: 'En tunnista sanaa "{word}" 🥲',

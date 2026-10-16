@@ -2,7 +2,8 @@
 	const icons = {
 		info: 'info',
 		sun: 'sun',
-		moon: 'moon'
+		moon: 'moon',
+		podium: 'podium'
 	} as const;
 
 	export type IconType = keyof typeof icons;

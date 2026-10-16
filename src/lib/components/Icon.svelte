@@ -1,6 +1,6 @@
 <!-- src/lib/Icon.svelte -->
 <script lang="ts">
-	export let iconName: 'info' | 'sun' | 'moon';
+	export let iconName: 'info' | 'sun' | 'moon' | 'podium';
 	export let width = '1rem';
 	export let height = '1rem';
 	export let focusable: string | number | null | undefined = undefined;
@@ -17,6 +17,10 @@
 		moon: {
 			box: 18,
 			svg: '<path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />'
+		},
+		podium: {
+			box: 24,
+			svg: '<path d="M1.5 12h6.2V22H1.5V12zm7.4-8.5h6.2V22H8.9V3.5zm7.4 10.2H22.5V22h-6.2v-8.3z"/>'
 		}
 	} as const;
 

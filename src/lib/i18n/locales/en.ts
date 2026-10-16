@@ -2,6 +2,7 @@ export default {
 	navbar: {
 		title: 'Meaningle',
 		openInfo: 'Open help',
+		openLeaderboard: 'Open leaderboard',
 		toggleTheme: {
 			light: 'Switch to light theme',
 			dark: 'Switch to dark theme',
@@ -55,6 +56,7 @@ export default {
 		name: 'Name',
 		guesses: 'Guesses',
 		hints: 'Hints',
+		guessesAndHints: 'Guesses/Hints',
 		closest: 'Best guess',
 		notWarm: 'Not warm',
 		giveUps: 'Give-ups',
@@ -73,6 +75,7 @@ export default {
 		loadError: 'Could not load the leaderboard.',
 		postError: 'Could not post your result. Try again.',
 		anonymous: 'Anonymous',
+		close: 'Close',
 	},
 	errors: {
 		wordNotRecognized: 'I don\'t recognize the word "{word}" 🥲',

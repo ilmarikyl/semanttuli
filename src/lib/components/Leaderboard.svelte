@@ -5,6 +5,7 @@
 	import { DAILY_RESULT_CAP } from '$lib/leaderboard/constants';
 	import { bestUnhintedCloseness } from '$lib/leaderboard/ranking';
 	import { getPostedResult, savePostedResult } from '$lib/leaderboard/posted';
+	import { leaderboardExpandTick } from '$stores/leaderboardModal';
 	import type { LeaderboardRow } from '$lib/leaderboard/types';
 	import type { Guess, WinState } from '$lib/types';
 
@@ -12,6 +13,16 @@
 	export let guesses: Guess[];
 	export let hintsUsed: number;
 	export let gameNumber: number;
+	export let collapsible = true;
+	export let anchorId = '';
+	export let titleId = '';
+
+	const winGrid =
+		'grid grid-cols-[2rem_minmax(0,1fr)_4rem_3.6rem] gap-x-1.5 sm:grid-cols-[2.25rem_minmax(0,1fr)_auto_auto] sm:gap-x-3';
+	const giveUpGrid =
+		'grid grid-cols-[2rem_minmax(0,1fr)_4.6rem_3.5rem] gap-x-1.5 sm:grid-cols-[2.25rem_minmax(0,1fr)_auto_auto] sm:gap-x-3';
+	const colHeader =
+		'text-[9px] font-semibold uppercase leading-tight tracking-wide text-gray-500 dark:text-gray-400 sm:text-[11px] sm:tracking-wider';
 
 	let rows: LeaderboardRow[] = [];
 	let postedId: string | null = null;
@@ -22,10 +33,18 @@
 	let loadError = '';
 	let postError = '';
 
+	let seenExpandTick = 0;
+
 	$: closeness = bestUnhintedCloseness(guesses);
 	$: wins = rows.filter((row) => row.outcome === 'won');
 	$: giveUps = rows.filter((row) => row.outcome === 'gaveUp');
 	$: boardFull = rows.length >= DAILY_RESULT_CAP && !postedId;
+	$: canPost = winState === 'won' || winState === 'gaveUp';
+	$: shown = !collapsible || expanded;
+	$: if ($leaderboardExpandTick !== seenExpandTick) {
+		seenExpandTick = $leaderboardExpandTick;
+		if (seenExpandTick > 0) expanded = true;
+	}
 
 	function toggleExpanded() {
 		expanded = !expanded;
@@ -106,32 +125,41 @@
 	});
 </script>
 
-<div class="mb-4 overflow-hidden rounded-3xl bg-winstate-bg-light dark:bg-winstate-bg-dark">
-	<div class="px-5 pt-4 sm:px-8 {expanded ? 'pb-5 sm:pb-6 sm:pt-6' : 'pb-3 sm:pb-3.5'}">
-		<button
-			type="button"
-			class="mx-auto flex items-center justify-center gap-1.5"
-			aria-expanded={expanded}
-			on:click={toggleExpanded}
-		>
-			<h2 class="text-lg font-bold sm:text-xl">{$_('leaderboard.title')}</h2>
-			<svg
-				class="h-6 w-6 shrink-0 text-gray-500 transition-transform duration-300 ease-in-out dark:text-gray-400"
-				class:rotate-180={expanded}
-				xmlns="http://www.w3.org/2000/svg"
-				viewBox="0 0 24 24"
-				fill="none"
-				stroke="currentColor"
-				stroke-width="2"
-				stroke-linecap="round"
-				stroke-linejoin="round"
-				aria-hidden="true"
+<div
+	id={anchorId || undefined}
+	class="mb-4 scroll-mt-4 overflow-hidden rounded-3xl bg-winstate-bg-light dark:bg-winstate-bg-dark"
+>
+	<div class="px-3 pt-4 sm:px-8 {shown ? 'pb-5 sm:pb-6 sm:pt-6' : 'pb-3 sm:pb-3.5'}">
+		{#if collapsible}
+			<button
+				type="button"
+				class="mx-auto flex items-center justify-center gap-1.5"
+				aria-expanded={expanded}
+				on:click={toggleExpanded}
 			>
-				<polyline points="6 9 12 15 18 9"></polyline>
-			</svg>
-		</button>
+				<h2 class="text-lg font-bold sm:text-xl">{$_('leaderboard.title')}</h2>
+				<svg
+					class="h-6 w-6 shrink-0 text-gray-500 transition-transform duration-300 ease-in-out dark:text-gray-400"
+					class:rotate-180={expanded}
+					xmlns="http://www.w3.org/2000/svg"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="2"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+					aria-hidden="true"
+				>
+					<polyline points="6 9 12 15 18 9"></polyline>
+				</svg>
+			</button>
+		{:else}
+			<h2 id={titleId || undefined} class="px-10 text-center text-lg font-bold sm:text-xl">
+				{$_('leaderboard.title')}
+			</h2>
+		{/if}
 
-		{#if expanded}
+		{#if shown}
 			<div transition:slide={{ duration: 250 }}>
 				{#if postedId}
 					<p class="mt-1 text-center text-xs text-gray-500 dark:text-gray-400 sm:text-sm">
@@ -143,7 +171,7 @@
 					</p>
 				{/if}
 
-				{#if !postedId && !boardFull && showForm}
+				{#if canPost && !postedId && !boardFull && showForm}
 					<div class="mt-4 space-y-3">
 						<input
 							class="w-full rounded-full bg-input-bg-light px-4 py-2.5 text-sm dark:bg-input-bg-dark sm:text-base"
@@ -181,7 +209,7 @@
 							<p class="text-center text-sm font-semibold text-red-500">{postError}</p>
 						{/if}
 					</div>
-				{:else if !postedId && !boardFull}
+				{:else if canPost && !postedId && !boardFull}
 					<div class="mt-4 text-center">
 						<button
 							class="rounded-full bg-btn-bg-primary-light px-4 py-2 text-sm text-white transition-colors duration-200 ease-in-out hover:bg-btn-bg-primary-hover-light dark:bg-btn-bg-secondary-dark dark:hover:bg-btn-bg-primary-hover-dark sm:text-base"
@@ -199,37 +227,35 @@
 				{:else}
 					<div class="mt-4 max-h-80 overflow-y-auto overscroll-contain pr-1">
 						{#if wins.length > 0}
-							<div
-								class="mb-1 grid grid-cols-[2.25rem_minmax(0,1fr)_auto_auto] gap-x-3 px-3 text-[10px] font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400 sm:grid-cols-[2.5rem_minmax(0,1fr)_auto_auto] sm:px-3 sm:text-xs"
-							>
+							<div class="mb-1 items-end px-2 {winGrid} {colHeader} sm:px-3">
 								<span>{$_('leaderboard.place')}</span>
 								<span>{$_('leaderboard.name')}</span>
-								<span class="min-w-[4.75rem] text-right">{$_('leaderboard.guesses')}</span>
-								<span class="min-w-[4.25rem] text-right">{$_('leaderboard.hints')}</span>
+								<span class="text-right sm:min-w-[4.5rem]">{$_('leaderboard.guesses')}</span>
+								<span class="text-right sm:min-w-[4rem]">{$_('leaderboard.hints')}</span>
 							</div>
 							<ol class="space-y-0.5">
 								{#each wins as row}
 									<li
-										class="grid grid-cols-[2.25rem_minmax(0,1fr)_auto_auto] items-center gap-x-3 rounded-xl px-3 py-1 sm:grid-cols-[2.5rem_minmax(0,1fr)_auto_auto] sm:px-3 sm:py-1.5 {row.id ===
+										class="items-center rounded-xl px-2 py-1 sm:px-3 sm:py-1.5 {winGrid} {row.id ===
 										postedId
 											? 'bg-light-purple-300/80 dark:bg-dark-purple-200'
 											: 'bg-white/45 dark:bg-black/20'}"
 									>
-										<span class="font-Concert text-base tabular-nums sm:text-lg">{row.place}</span>
-										<span class="flex min-w-0 items-baseline gap-2">
-											<span class="truncate font-semibold">{displayName(row)}</span>
+										<span class="font-Concert text-sm tabular-nums sm:text-base">{row.place}</span>
+										<span class="flex min-w-0 items-baseline gap-1 sm:gap-1.5">
+											<span class="min-w-0 truncate text-sm font-semibold">{displayName(row)}</span>
 											{#if row.id === postedId}
 												<span
-													class="shrink-0 text-[10px] font-semibold uppercase tracking-wide text-highlight-light dark:text-highlight-dark"
+													class="shrink-0 text-[9px] font-semibold uppercase tracking-wide text-highlight-light dark:text-highlight-dark sm:text-[10px]"
 													>{$_('leaderboard.you')}</span
 												>
 											{/if}
 										</span>
-										<span class="min-w-[4.75rem] text-right tabular-nums text-sm sm:text-base"
+										<span class="text-right text-xs tabular-nums sm:min-w-[4.5rem] sm:text-sm"
 											>{row.guessCount}</span
 										>
 										<span
-											class="min-w-[4.25rem] text-right tabular-nums text-sm text-gray-600 dark:text-gray-300 sm:text-base"
+											class="text-right text-xs tabular-nums text-gray-600 dark:text-gray-300 sm:min-w-[4rem] sm:text-sm"
 											>{row.hintCount}</span
 										>
 									</li>
@@ -239,52 +265,51 @@
 
 						{#if giveUps.length > 0}
 							<div
-								class="mb-1.5 mt-3 flex items-center gap-3 text-[10px] font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400 sm:text-xs"
+								class="mb-1.5 mt-3 flex items-center gap-3 text-[9px] font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400 sm:text-[11px] sm:tracking-wider"
 							>
 								<div class="h-px flex-1 bg-gray-300 dark:bg-white/15"></div>
 								<span>{$_('leaderboard.giveUps')}</span>
 								<div class="h-px flex-1 bg-gray-300 dark:bg-white/15"></div>
 							</div>
-							<div
-								class="mb-1 grid grid-cols-[2.25rem_minmax(0,1fr)_auto_auto_auto] gap-x-3 px-3 text-[10px] font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400 sm:grid-cols-[2.5rem_minmax(0,1fr)_auto_auto_auto] sm:px-3 sm:text-xs"
-							>
+							<div class="mb-1 items-end px-2 {giveUpGrid} {colHeader} sm:px-3">
 								<span>{$_('leaderboard.place')}</span>
 								<span>{$_('leaderboard.name')}</span>
-								<span class="min-w-[4.75rem] text-right">{$_('leaderboard.guesses')}</span>
-								<span class="min-w-[4.25rem] text-right">{$_('leaderboard.hints')}</span>
-								<span class="min-w-[4.75rem] text-right leading-tight sm:min-w-[6.5rem]">{$_('leaderboard.closest')}</span>
+								<span class="text-right leading-tight sm:min-w-[8.5rem] sm:whitespace-nowrap">
+									<span class="sm:hidden">{$_('leaderboard.guesses')}/<br />{$_('leaderboard.hints')}</span>
+									<span class="hidden sm:inline">{$_('leaderboard.guessesAndHints')}</span>
+								</span>
+								<span class="whitespace-normal text-right leading-tight sm:min-w-[5.5rem] sm:whitespace-nowrap"
+									>{$_('leaderboard.closest')}</span
+								>
 							</div>
 							<ol class="space-y-0.5">
 								{#each giveUps as row}
 									<li
-										class="grid grid-cols-[2.25rem_minmax(0,1fr)_auto_auto_auto] items-center gap-x-3 rounded-xl px-3 py-1 sm:grid-cols-[2.5rem_minmax(0,1fr)_auto_auto_auto] sm:px-3 sm:py-1.5 {row.id ===
+										class="items-center rounded-xl px-2 py-1 sm:px-3 sm:py-1.5 {giveUpGrid} {row.id ===
 										postedId
 											? 'bg-light-purple-300/80 dark:bg-dark-purple-200'
 											: 'bg-white/45 dark:bg-black/20'}"
 									>
 										<span
-											class="font-Concert text-base tabular-nums text-gray-500 dark:text-gray-400 sm:text-lg"
+											class="font-Concert text-sm tabular-nums text-gray-500 dark:text-gray-400 sm:text-base"
 											>{row.place}</span
 										>
-										<span class="flex min-w-0 items-baseline gap-2">
-											<span class="truncate font-medium">{displayName(row)}</span>
+										<span class="flex min-w-0 items-baseline gap-1 sm:gap-1.5">
+											<span class="min-w-0 truncate text-sm font-medium">{displayName(row)}</span>
 											{#if row.id === postedId}
 												<span
-													class="shrink-0 text-[10px] font-semibold uppercase tracking-wide text-highlight-light dark:text-highlight-dark"
+													class="shrink-0 text-[9px] font-semibold uppercase tracking-wide text-highlight-light dark:text-highlight-dark sm:text-[10px]"
 													>{$_('leaderboard.you')}</span
 												>
 											{/if}
 										</span>
-										<span class="min-w-[4.75rem] text-right tabular-nums text-sm sm:text-base"
-											>{row.guessCount}</span
-										>
 										<span
-											class="min-w-[4.25rem] text-right tabular-nums text-sm text-gray-600 dark:text-gray-300 sm:text-base"
-											>{row.hintCount}</span
+											class="whitespace-nowrap text-right text-xs tabular-nums sm:min-w-[8.5rem] sm:text-sm"
+											>{row.guessCount}<span class="text-gray-400">/</span>{row.hintCount}</span
 										>
-										<span class="min-w-[4.75rem] text-right sm:min-w-[6.5rem]">
+										<span class="text-right sm:min-w-[5.5rem]">
 											<span
-												class="inline-block rounded-full bg-white/70 px-2 py-0.5 text-[11px] font-medium dark:bg-black/30 sm:text-xs"
+												class="inline-block rounded-full bg-white/70 px-1.5 py-0.5 text-[10px] font-medium tabular-nums dark:bg-black/30 sm:px-2 sm:text-[11px]"
 											>
 												{closestLabel(row)}
 											</span>

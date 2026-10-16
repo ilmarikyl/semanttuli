@@ -55,7 +55,7 @@
 
 <WinState {winState} {guesses} {hintsUsed} {secretWord} {gameNumber} />
 {#if winState === 'won' || winState === 'gaveUp'}
-	<Leaderboard {winState} {guesses} {hintsUsed} {gameNumber} />
+	<Leaderboard {winState} {guesses} {hintsUsed} {gameNumber} anchorId="daily-leaderboard" />
 {/if}
 <GuessForm {secretWord} />
 <Guesses />
