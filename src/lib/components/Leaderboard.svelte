@@ -246,7 +246,7 @@
 											<span class="min-w-0 truncate text-sm font-semibold">{displayName(row)}</span>
 											{#if row.id === postedId}
 												<span
-													class="shrink-0 text-[9px] font-semibold uppercase tracking-wide text-highlight-light dark:text-highlight-dark sm:text-[10px]"
+													class="shrink-0 text-[9px] font-semibold uppercase tracking-wide text-dark-purple-200 dark:text-highlight-dark sm:text-[10px]"
 													>{$_('leaderboard.you')}</span
 												>
 											{/if}
@@ -298,7 +298,7 @@
 											<span class="min-w-0 truncate text-sm font-medium">{displayName(row)}</span>
 											{#if row.id === postedId}
 												<span
-													class="shrink-0 text-[9px] font-semibold uppercase tracking-wide text-highlight-light dark:text-highlight-dark sm:text-[10px]"
+													class="shrink-0 text-[9px] font-semibold uppercase tracking-wide text-dark-purple-200 dark:text-highlight-dark sm:text-[10px]"
 													>{$_('leaderboard.you')}</span
 												>
 											{/if}
